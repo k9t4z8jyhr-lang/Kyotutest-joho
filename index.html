@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="共通テスト「情報」のプログラミング（共通テスト用プログラム表記）を練習できる無料ツール。ランダム課題・空欄補充・ステップ実行・フリーモードで、スマホでも手軽に学べます。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="共通テスト プログラミング シミュレータ">
+<meta property="og:description" content="ランダム課題・空欄補充・ステップ実行で、共通テスト「情報」のプログラミングを練習しよう。">
+<meta name="theme-color" content="#2557d6">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%96%A5%3C/text%3E%3C/svg%3E">
+<title>共通テスト プログラミング シミュレータ</title>
+<style>
+:root{--bg:#f6f6f3;--card:#fff;--tx:#1d1d1b;--mut:#77756e;--bd:#dcdad2;--ac:#2557d6;--acbg:#e6edfc;--hl:#fff1b8;--er:#c0392b;--erbg:#fde4e0;--ch:#d8f2dd;--box-sizing:border-box}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#17181a;--card:#222427;--tx:#ecebe6;--mut:#9a988f;--bd:#383a3e;--ac:#7ba3ff;--acbg:#24324f;--hl:#4a4217;--er:#ff8a7a;--erbg:#4a2420;--ch:#1f4a2b;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#17181a;--card:#222427;--tx:#ecebe6;--mut:#9a988f;--bd:#383a3e;--ac:#7ba3ff;--acbg:#24324f;--hl:#4a4217;--er:#ff8a7a;--erbg:#4a2420;--ch:#1f4a2b;color-scheme:dark}
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.5 -apple-system,"Hiragino Sans","Noto Sans JP",sans-serif}
+main{max-width:720px;margin:0 auto;padding:14px 14px 40px}
+h1{font-size:18px;margin:4px 0 12px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:10px 12px;margin-bottom:12px}
+h2{font-size:13px;color:var(--mut);margin:0 0 6px;font-weight:600}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+button,select{font:inherit;border:1px solid var(--bd);background:var(--card);color:var(--tx);border-radius:9px;padding:8px 12px}
+button.p{background:var(--ac);color:#fff;border-color:var(--ac)}
+button.chip{padding:5px 10px;font-size:13px}
+button.chip.on{background:var(--acbg);border-color:var(--ac);color:var(--ac)}
+textarea,.lst{width:100%;font:13px/1.6 ui-monospace,Menlo,Consolas,monospace;background:var(--card);color:var(--tx);border:1px solid var(--bd);border-radius:9px;padding:8px}
+textarea{height:300px;resize:vertical;white-space:pre;overflow:auto}
+.lst{display:none;max-height:340px;overflow:auto;padding:4px 0}
+.ln{white-space:pre;padding:0 8px;min-width:max-content}
+.ln i{display:inline-block;width:2.2em;color:var(--mut);font-style:normal;user-select:none}
+.ln.cur{background:var(--hl)}.ln.err{background:var(--erbg)}
+#st{font-size:13px;min-height:20px;color:var(--mut)}#st.e{color:var(--er);font-weight:600}
+.var{margin:4px 0;padding:4px 6px;border-radius:7px;font-family:ui-monospace,Menlo,monospace;font-size:13px}
+.var.ch{background:var(--ch)}
+.arr{display:flex;flex-wrap:wrap;gap:3px;margin-top:3px}
+.arr span{border:1px solid var(--bd);border-radius:5px;min-width:34px;text-align:center;padding:0 4px;background:var(--card)}
+.arr span.c{background:var(--ch);border-color:var(--ac)}
+.arr i{display:block;font-size:10px;color:var(--mut);font-style:normal;border-bottom:1px solid var(--bd)}
+pre{margin:0;font:13px/1.6 ui-monospace,Menlo,monospace;white-space:pre-wrap;min-height:22px}
+.exl{font:13px/1.5 ui-monospace,Menlo,monospace;white-space:pre-wrap;margin:3px 0}.exl span{display:block;color:var(--mut);font:12px/1.4 -apple-system,sans-serif;padding-left:1em;white-space:normal}#expbox h3{font-size:13px;margin:12px 0 4px}#expbox code{background:var(--acbg);padding:0 4px;border-radius:4px}
+.tbw{overflow-x:auto}.tb{width:100%;border-collapse:collapse;margin:4px 0 10px;font-size:13px}.tb th,.tb td{border:1px solid var(--bd);padding:4px 6px;text-align:left;vertical-align:top}.tb th{background:var(--acbg);font-weight:600;white-space:nowrap}
+.gx{background:var(--acbg);border-radius:8px;padding:6px 8px;margin:4px 0 2px}.gr{color:var(--mut);font-size:12px;margin:0 0 8px}
+button.tab{padding:6px 14px;border-radius:999px;font-size:14px}button.tab.on{background:var(--ac);color:#fff;border-color:var(--ac)}
+#fillbox select{font:inherit;padding:2px 4px;max-width:100%}
+.res{display:none;margin-top:8px;padding:8px 10px;border-radius:9px;font-weight:600}.res.ok{display:block;background:var(--ch)}.res.ng{display:block;background:var(--erbg)}
+.mut{color:var(--mut)}details{font-size:13px}code{background:var(--acbg);padding:0 4px;border-radius:4px}
+</style>
+</head>
+<body>
+<main>
+<h1>🖥 共通テスト プログラミング シミュレータ</h1>
+<div class="row" style="margin-bottom:10px"><button class="tab on" id="tTask">🎯 課題モード</button><button class="tab" id="tFree">🆓 フリーモード</button></div>
+<div class="card">
+ <h2>🎲 ランダム課題（自分でプログラムを書いて答え合わせ）</h2>
+ <div class="row"><select id="lvl"><option value="0" selected>🎲 おまかせ（全種類）</option><option value="1">★ やさしい</option><option value="2">★★ ふつう</option><option value="3">★★★ むずかしい</option></select><select id="mode"><option value="m" selected>🎲 形式おまかせ</option><option value="w">✍ 記述式</option><option value="f">🧩 空欄補充式</option></select><button class="p" id="bNew">🎲 新しい課題</button></div>
+ <div id="pt" style="margin-top:8px"></div>
+ <div id="fillc" style="display:none;margin-top:8px"><h2>🧩 空欄補充：選択肢から選んで完成させよう</h2><div id="fillbox"></div></div><details id="solbox" style="margin-top:6px"><summary>解答例を見る</summary><pre id="solpre"></pre><button id="bSol" style="margin-top:6px">解答例をエディタに入れる</button></details>
+</div>
+<div class="card">
+ <h2>設定</h2>
+ <div class="row" style="margin-top:8px"><span class="mut" style="font-size:13px">配列の添字（最初の要素の番号）</span>
+  <select id="base"><option value="1">1から</option><option value="0">0から</option></select></div>
+ <div id="baseEx" style="margin-top:8px;font-size:13px"></div>
+</div>
+<div class="card">
+ <h2>プログラム <span class="mut">（字下げ＝ブロック。「(01)」や「│」を貼り付けても可）</span></h2>
+ <details id="cs" style="margin-bottom:8px"><summary>🧰 コードセット（タップでエディタに挿入）</summary><div class="row" id="csCat" style="margin-top:6px"></div><div class="row" id="csList" style="margin-top:6px"></div><div class="mut" id="csDesc" style="font-size:12px;margin-top:6px">カーソルのある行のあとに挿入されます。配列は A、要素数は n を使います。</div></details>
+ <textarea id="src" spellcheck="false" autocapitalize="off"></textarea>
+ <div class="lst" id="lst"></div>
+ <div class="row" style="margin-top:8px">
+  <button class="p" id="bCheck">✅ 答え合わせ</button><button id="bRun">▶ 実行</button><button id="bStep">⏭ ステップ</button><button id="bAuto">⏩ 連続ステップ</button><select id="spd" title="連続ステップの速さ"><option value="1000">ゆっくり</option><option value="450" selected>ふつう</option><option value="120">速い</option></select><button id="bReset">↺ 編集に戻る</button><button id="bClear" style="display:none">🗑 クリア</button>
+ </div>
+ <div id="st"></div><div id="res" class="res"></div>
+</div>
+<div class="card"><h2>変数のようす <span class="mut">（緑＝直前で変化）</span></h2><div id="vars"></div></div>
+<div class="card"><h2>表示（出力）</h2><pre id="out"></pre></div>
+<div class="card" id="expc" style="display:none"><h2>📖 解説</h2><div id="expbox"></div></div>
+<div class="card"><details><summary>📚 書き方ガイド（基本・実例・使える書き方）</summary>
+<h2 style="margin-top:10px">① プログラムの基本ルール</h2>
+<p>・プログラムは<b>上から1行ずつ順番に</b>実行されます。<br>・<code>=</code> は「代入」（右の値を左の変数に入れる）。「等しいか」を調べるときは <code>==</code> を使う。<br>・「繰り返す:」「ならば:」の<b>中身は字下げ</b>（スペース4つを目安）して書きます。字下げがそろっている部分がひとまとまりです。<br>・結果は <code>表示する(…)</code> で出力。複数をカンマで並べると、つなげて表示されます。<br>・配列は <code>A[i]</code> のように添字で要素を指定。添字が 1 始まりか 0 始まりかは、上の「配列の添字」で切り替えます。<br>・行頭に <code>#</code> をつけるとメモ（コメント）になります。「(01)」の行番号や「│」を貼り付けても動きます。</p>
+<h2 style="margin-top:12px">② 実例（このままコピーして実行できます）</h2>
+<p><b>例1：変数と表示</b></p><pre class="gx">x = 3
+y = x * 2 + 1
+表示する("y の値は", y)</pre><p class="gr">→ y の値は7</p>
+<p><b>例2：配列と合計（繰り返し）</b></p><pre class="gx">A = [3, 1, 4, 1, 5]
+n = 要素数(A)
+goukei = 0
+i を 1 から n まで 1 ずつ増やしながら繰り返す:
+    goukei = goukei + A[i]
+表示する(goukei)</pre><p class="gr">→ 14（添字が 0 始まりのときは「1 から n まで」を「0 から n - 1 まで」にする）</p>
+<p><b>例3：条件分岐（もし）</b></p><pre class="gx">x = 7
+もし x % 2 == 0 ならば:
+    表示する("偶数")
+そうでなければ:
+    表示する("奇数")</pre><p class="gr">→ 奇数</p>
+<p><b>例4：回数が決まっていない繰り返し</b></p><pre class="gx">x = 1
+x &lt; 50 の間繰り返す:
+    x = x * 2
+表示する(x)</pre><p class="gr">→ 64（1→2→4→8→16→32→64 となり、50以上で終わる）</p>
+<p><b>例5：最大値を求める（もし・繰り返しの組み合わせ）</b></p><pre class="gx">A = [3, 8, 2, 6]
+n = 要素数(A)
+saidai = A[1]
+i を 2 から n まで 1 ずつ増やしながら繰り返す:
+    もし A[i] &gt; saidai ならば:
+        saidai = A[i]
+表示する(saidai)</pre><p class="gr">→ 8</p>
+<p><b>例6：関数と計算</b></p><pre class="gx">表示する(最大値(3, 8))
+表示する(最小値(3, 8))
+表示する(整数(7 / 2))
+表示する(7 % 3)</pre><p class="gr">→ 8 / 3 / 3 / 1（それぞれ1行ずつ表示）</p>
+<h2 style="margin-top:12px">③ よくあるミス</h2>
+<p>・<code>=</code>（代入）と <code>==</code>（比較）を取り違える<br>・合計や個数を 0 で初期化し忘れる（「まだ代入されていません」とエラーになります）<br>・繰り返しの範囲を 1〜n と 0〜n-1 で間違える（範囲外の添字エラーの原因）<br>・「の間繰り返す」の中で条件の変数を更新しない（無限ループ）<br>・字下げをそろえない（字下げがずれるとエラーになる、または繰り返しの外に出てしまう）<br>・「表示する」を繰り返しの中にするか外にするかを間違える（毎回表示されるか、最後に1回かが変わる）</p>
+<h2 style="margin-top:12px">④ デバッグのコツ</h2>
+<p>「⏭ ステップ」で 1 行ずつ、または「⏩ 連続ステップ」で自動的に進め、「変数のようす」の変化を見ると、どこで考えがずれたか分かります。エラー表示には行番号が出ます。</p>
+<h2 style="margin-top:12px">⑤ 使える書き方（一覧）</h2>
+<p style="margin:4px 0"><b>■ 文の書き方</b></p>
+<div class="tbw"><table class="tb"><tr><th>種類</th><th>書き方</th><th>意味</th></tr>
+<tr><td>代入</td><td><code>x = 3</code></td><td>変数 x に 3 を入れる</td></tr>
+<tr><td>配列を作る</td><td><code>A = [3, 1, 4]</code></td><td>配列 A を作る</td></tr>
+<tr><td>配列の要素</td><td><code>A[i] = 5</code><br><code>A[i]</code></td><td>要素に代入する／要素の値を使う</td></tr>
+<tr><td>表示</td><td><code>表示する("答え", x)</code></td><td>値をつなげて表示する</td></tr>
+<tr><td>繰り返し（増）</td><td><code>i を 1 から n まで 1 ずつ増やしながら繰り返す:</code></td><td>i を 1 から n まで増やしながら、字下げ部分を繰り返す</td></tr>
+<tr><td>繰り返し（減）</td><td><code>i を n から 1 まで 1 ずつ減らしながら繰り返す:</code></td><td>i を n から 1 まで減らしながら繰り返す</td></tr>
+<tr><td>条件で繰り返し</td><td><code>x &lt; 10 の間繰り返す:</code></td><td>条件が成り立つ間、繰り返す</td></tr>
+<tr><td>もし</td><td><code>もし x &gt; 3 ならば:</code></td><td>条件が成り立つときだけ実行</td></tr>
+<tr><td>そうでなくもし</td><td><code>そうでなくもし x &gt; 1 ならば:</code></td><td>直前の条件が不成立で、これが成立のとき</td></tr>
+<tr><td>そうでなければ</td><td><code>そうでなければ:</code></td><td>どの条件も不成立のとき</td></tr></table></div>
+<p style="margin:4px 0"><b>■ 使える関数</b></p>
+<div class="tbw"><table class="tb"><tr><th>関数</th><th>意味</th><th>例 → 結果</th></tr>
+<tr><td><code>要素数(A)</code></td><td>配列の要素数</td><td>A = [3, 1, 4] なら 3</td></tr>
+<tr><td><code>最大値(a, b)</code></td><td>大きい方の値</td><td><code>最大値(3, 8)</code> → 8</td></tr>
+<tr><td><code>最小値(a, b)</code></td><td>小さい方の値</td><td><code>最小値(3, 8)</code> → 3</td></tr>
+<tr><td><code>整数(x)</code></td><td>小数点以下を切り捨て</td><td><code>整数(7 / 2)</code> → 3</td></tr>
+<tr><td><code>乱数(n)</code></td><td>0〜n のランダムな整数</td><td><code>乱数(9)</code> → 0〜9</td></tr></table></div>
+<p style="margin:4px 0"><b>■ 使える演算子</b></p>
+<div class="tbw"><table class="tb"><tr><th>種類</th><th>記号</th><th>例 → 結果</th></tr>
+<tr><td>四則演算</td><td><code>+ - * /</code></td><td><code>7 / 2</code> → 3.5</td></tr>
+<tr><td>整数の商</td><td><code>÷</code></td><td><code>7 ÷ 2</code> → 3</td></tr>
+<tr><td>余り</td><td><code>%</code></td><td><code>7 % 3</code> → 1</td></tr>
+<tr><td>比較</td><td><code>== != &lt; &gt; &lt;= &gt;=</code></td><td><code>x == 3</code>（等しいか）</td></tr>
+<tr><td>論理</td><td><code>and or not</code></td><td><code>x &gt; 0 and x &lt; 10</code></td></tr></table></div>
+<p class="mut">全角の記号（＝、＜、≦、≧、≠）も使えます。</p>
+<p class="mut">範囲外の添字や未代入の変数を使うとエラーで教えます。ステップ実行で、変数の変化を1行ずつ追えます。</p></details></div>
+</main>
+<script>
+const $=s=>document.querySelector(s);
+const PRE={
+"図2：2人目以降の待ち時間":`taiken = 3
+Touchaku = [0, 3, 4, 10, 11, 12]
+kyakusu = 要素数(Touchaku)
+Kaishi = [0, 0, 0, 0, 0, 0]
+Shuryou = [0, 0, 0, 0, 0, 0]
+Shuryou[1] = taiken
+i を 2 から kyakusu まで 1 ずつ増やしながら繰り返す:
+    Kaishi[i] = 最大値(Touchaku[i], Shuryou[i - 1])
+    Shuryou[i] = Kaishi[i] + taiken
+    表示する(i, "人目の待ち時間：", Kaishi[i] - Touchaku[i], "分間")`,
+"図3：最長待ち時間":`Touchaku = [0, 3, 4, 10, 11, 12]
+kyakusu = 要素数(Touchaku)
+taiken を 1 から 15 まで 1 ずつ増やしながら繰り返す:
+    Kaishi = [0, 0, 0, 0, 0, 0]
+    Shuryou = [0, 0, 0, 0, 0, 0]
+    Shuryou[1] = taiken
+    i を 2 から kyakusu まで 1 ずつ増やしながら繰り返す:
+        Kaishi[i] = 最大値(Touchaku[i], Shuryou[i - 1])
+        Shuryou[i] = Kaishi[i] + taiken
+    saichou = 0
+    i を 1 から kyakusu まで 1 ずつ増やしながら繰り返す:
+        saichou = 最大値(saichou, Kaishi[i] - Touchaku[i])
+    もし saichou < 10 ならば:
+        表示する("体験時間", taiken, "分間：", "最長待ち時間", saichou, "分間")`,
+"基本文法":`n = 1
+n <= 15 の間繰り返す:
+    もし n % 15 == 0 ならば:
+        表示する(n, " FizzBuzz")
+    そうでなくもし n % 3 == 0 ならば:
+        表示する(n, " Fizz")
+    そうでなければ:
+        表示する(n)
+    n = n + 1`};
+let base=1,gen=null,env={},out=[],prev={},tree=[],cur=null,steps=0,done=false;
+class E extends Error{constructor(m,no){super(m);this.no=no}}
+const esc=s=>String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+const outside=(s,f)=>s.split(/("[^"]*")/).map((p,i)=>i%2?p:f(p)).join('');
+function norm(s){s=s.replace(/[“”＂]/g,'"');return outside(s,p=>p.replace(/[\uFF01-\uFF5E]/g,c=>String.fromCharCode(c.charCodeAt(0)-0xFEE0)).replace(/\u3000/g,' ').replace(/≦/g,'<=').replace(/≧/g,'>=').replace(/≠/g,'!='))}
+const BAR=/[│|┃└├]/g, strip=t=>t.replace(/^\s*\(\d{1,3}\)/,'');
+function prepare(src){
+ const raw=src.replace(/\t/g,'    ').split('\n'),L=[];
+ for(let k=0;k<raw.length;k++){
+  const t=strip(norm(raw[k])),pre=t.match(/^[ │|┃└├┌┐┘]*/)[0],start=k;
+  let body=t.slice(pre.length).trim(); if(!body||body[0]=='#')continue;
+  const depth=(pre.match(BAR)||[]).length||pre.length;
+  const bal=s=>(s.match(/\(/g)||[]).length-(s.match(/\)/g)||[]).length;
+  while(bal(body)>0&&k+1<raw.length){k++;body+=' '+strip(norm(raw[k])).replace(/^[ │|┃└├┌┐┘]*/,'').trim()}
+  L.push({depth,text:body,no:start+1,end:k+1});
+ }
+ return L;
+}
+function parse(L,i,d){
+ const nodes=[];
+ while(i<L.length&&L[i].depth>=d){
+  const l=L[i];if(l.depth>d)throw new E('字下げ（インデント）がそろっていません',l.no);
+  const n={no:l.no,end:l.end,text:l.text};let m;
+  const body=()=>{if(i+1<L.length&&L[i+1].depth>l.depth){const r=parse(L,i+1,L[i+1].depth);i=r[1];return r[0]}i++;return[]};
+  if(m=l.text.match(/^(.+?)\s*を\s*(.+?)\s*から\s*(.+?)\s*まで\s*(.+?)\s*ずつ\s*(増やし|減らし)ながら繰り返す\s*:?$/)){Object.assign(n,{t:'for',v:m[1],a:m[2],b:m[3],s:m[4],dec:m[5]=='減らし'});n.body=body()}
+  else if(m=l.text.match(/^(.+?)\s*の間\s*繰り返す\s*:?$/)){n.t='while';n.c=m[1];n.body=body()}
+  else if(m=l.text.match(/^もし\s*(.+?)\s*ならば\s*:?$/)){n.t='if';n.br=[{c:m[1],body:body()}];
+   while(i<L.length&&L[i].depth===d){let x;const t=L[i].text;
+    if(x=t.match(/^そうでなくもし\s*(.+?)\s*ならば\s*:?$/)){const bb=n.br;const c=x[1];const l2=L[i];n.br.push({c,body:(()=>{if(i+1<L.length&&L[i+1].depth>l2.depth){const r=parse(L,i+1,L[i+1].depth);i=r[1];return r[0]}i++;return[]})()})}
+    else if(/^そうでなければ\s*:?$/.test(t)){const l2=L[i];n.br.push({body:(()=>{if(i+1<L.length&&L[i+1].depth>l2.depth){const r=parse(L,i+1,L[i+1].depth);i=r[1];return r[0]}i++;return[]})()})}
+    else break}}
+  else if(m=l.text.match(/^表示する\s*\((.*)\)$/)){n.t='print';n.a=m[1];i++}
+  else if(m=l.text.match(/^([^=<>!]+?)\s*=(?!=)\s*(.+)$/)){n.t='set';n.l=m[1].trim();n.r=m[2];i++}
+  else throw new E('この行を解釈できません：'+l.text,l.no);
+  nodes.push(n);
+ }
+ return[nodes,i];
+}
+const F={要素数:a=>a.length-base,最大値:(...a)=>Math.max(...a),最小値:(...a)=>Math.min(...a),整数:Math.trunc,乱数:n=>Math.floor(Math.random()*(n+1))};
+function ev(x,n){
+ let js=outside(x,p=>p.replace(/\band\b/g,'&&').replace(/\bor\b/g,'||').replace(/\bnot\b/g,'!').replace(/(?<![=<>!])=(?!=)/g,'==')
+  .replace(/([\w\u3040-\u9fff.]+(?:\[[^\]]*\])?|\([^()]*\))\s*÷\s*([\w\u3040-\u9fff.]+(?:\[[^\]]*\])?|\([^()]*\))/g,'Math.floor($1/$2)'));
+ try{const v=new Function('env','F','with(F){with(env){return ('+js+')}}')(env,F);
+  if(v===undefined||(typeof v=='number'&&isNaN(v)))throw new Error('UNDEF');return v}
+ catch(e){let m=e.message;const r=m.match(/^(.+) is not defined/);
+  if(r)m='変数「'+r[1]+'」がまだ代入されていません';
+  else if(m=='UNDEF'||/undefined/.test(m))m='値が未定義です（配列の範囲外の添字や、未代入の値を使っていませんか？）';
+  throw new E(m+'  ［'+x+'］',n.no)}
+}
+function* exec(nodes){
+ for(const n of nodes){
+  if(n.t=='set'){
+   let v=ev(n.r,n);if(/^\[.*\]$/.test(n.r)&&Array.isArray(v)&&base)v.unshift(undefined);
+   if(/^[^\[\]]+$/.test(n.l))env[n.l]=v;
+   else{const m=n.l.match(/^([^\[]+?)\s*\[(.+)\]$/);const a=m&&env[m[1]];
+    if(!Array.isArray(a))throw new E('「'+n.l+'」：配列が見つかりません',n.no);
+    const ix=ev(m[2],n);if(!Number.isInteger(ix)||ix<base||ix>=a.length)throw new E('配列「'+m[1]+'」の添字 '+ix+' は範囲外です（有効：'+base+'〜'+(a.length-1)+'）',n.no);
+    a[ix]=v}
+   n.ix=null;cur=n;yield n}
+  else if(n.t=='print'){const a=ev('['+n.a+']',n);a.forEach(v=>{if(v===undefined)throw new E('表示する値が未定義です',n.no)});
+   out.push(a.map(v=>Array.isArray(v)?'['+v.join(', ')+']':v).join(''));cur=n;yield n}
+  else if(n.t=='if'){let ch=null;for(const b of n.br)if(b.c===undefined||ev(b.c,n)){ch=b;break}
+   cur=n;yield n;if(ch)yield*exec(ch.body)}
+  else if(n.t=='for'){const a=ev(n.a,n),b=ev(n.b,n),s=ev(n.s,n);
+   if(!(s>0))throw new E('増分は正の数にしてください',n.no);
+   env[n.v]=a;while(n.dec?env[n.v]>=b:env[n.v]<=b){cur=n;yield n;yield*exec(n.body);env[n.v]+=n.dec?-s:s}}
+  else if(n.t=='while'){while(true){const c=ev(n.c,n);cur=n;yield n;if(!c)break;yield*exec(n.body)}}
+ }
+}
+function setSt(m,e){$('#st').textContent=m;$('#st').className=e?'e':''}
+function renderList(errNo){
+ const lines=$('#src').value.split('\n');
+ $('#lst').innerHTML=lines.map((t,i)=>{const no=i+1,c=errNo==no?'err':(cur&&no>=cur.no&&no<=cur.end&&!done?'cur':'');
+  return'<div class="ln '+c+'" id="L'+no+'"><i>'+no+'</i>'+esc(t)+'</div>'}).join('');
+ const el=errNo?$('#L'+errNo):cur&&$('#L'+cur.no);if(el)el.scrollIntoView({block:'nearest'});
+}
+function renderVars(hl){
+ const box=$('#vars'),keys=Object.keys(env);
+ if(!keys.length){box.innerHTML='<span class="mut">（まだ変数はありません）</span>'}
+ else box.innerHTML=keys.map(k=>{const v=env[k],p=prev[k];let h;
+  if(Array.isArray(v)){h='<b>'+esc(k)+'</b><div class="arr">'+v.map((x,i)=>i<base?'':'<span class="'+(hl&&(!Array.isArray(p)||JSON.stringify(p[i])!==JSON.stringify(x))?'c':'')+'"><i>'+i+'</i>'+esc(x)+'</span>').join('')+'</div>';
+   return'<div class="var">'+h+'</div>'}
+  return'<div class="var '+(hl&&JSON.stringify(p)!==JSON.stringify(v)?'ch':'')+'"><b>'+esc(k)+'</b> = '+esc(v)+'</div>'}).join('');
+ prev=JSON.parse(JSON.stringify(env,(k,v)=>v===undefined?null:v));
+}
+function show(errNo,hl){renderList(errNo);renderVars(hl);$('#out').textContent=out.join('\n')}
+function begin(){
+ base=+$('#base').value;env={};out=[];prev={};cur=null;steps=0;done=false;
+ tree=parse(prepare($('#src').value),0,(prepare($('#src').value)[0]||{depth:0}).depth)[0];
+ gen=exec(tree);$('#src').style.display='none';$('#lst').style.display='block';
+}
+function fail(e){gen=null;if(e instanceof E){setSt('⚠ '+e.no+'行目：'+e.message,1);show(e.no,false)}else{setSt('⚠ '+e.message,1);show(0,false)}}
+function step(){
+ try{if(!gen&&!done)begin();if(done)return;
+  const r=gen.next();steps++;
+  if(r.done){done=true;gen=null;setSt('✅ 終了（'+steps+'ステップ）');show(0,true)}
+  else{setSt(cur.no+'行目を実行　（'+steps+'ステップ目）');show(0,true)}
+ }catch(e){fail(e)}
+}
+function runAll(){autoStop();
+ try{begin();let r;
+  while(!(r=gen.next()).done){if(++steps>100000)throw new E('100000ステップを超えました。無限ループの可能性があります',cur.no)}
+  done=true;gen=null;setSt('✅ 実行完了（'+steps+'ステップ）');show(0,false)
+ }catch(e){fail(e)}
+}
+function reset(){autoStop();gen=null;done=false;cur=null;$('#src').style.display='block';$('#lst').style.display='none';setSt('');$('#vars').innerHTML='<span class="mut">（まだ変数はありません）</span>';$('#out').textContent='';prev={}}
+function load(name){if(!free)setFree(true,true);prob=null;fill=null;$('#expc').style.display='none';$('#fillc').style.display='none';$('#solbox').style.display='';$('#res').className='res';$('#src').value=PRE[name];document.querySelectorAll('.chip').forEach(c=>c.classList.toggle('on',c.dataset.n==name));reset()}
+
+$('#bRun').onclick=()=>{autoStop();runAll()};$('#bStep').onclick=()=>{autoStop();step()};$('#bReset').onclick=reset;$('#bAuto').onclick=autoStart;$('#spd').onchange=()=>{if(autoT){autoStop();autoStart()}};$('#base').onchange=()=>{reset();if(prob)newProb(true)};
+let prob=null;
+const R=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
+const RA=(n,a,b)=>Array.from({length:n},()=>R(a,b));
+const uniq=(n,a,b)=>{const s=new Set();while(s.size<n)s.add(R(a,b));return[...s]};
+const B=()=>+$('#base').value;
+const ah=A=>'A = ['+A.join(', ')+']\nn = 要素数(A)\n';
+const sumA=A=>A.reduce((x,y)=>x+y,0);
+const loop=(lo,hi)=>`i を ${lo} から ${hi} まで 1 ずつ増やしながら繰り返す:\n`;
+const G={1:[
+()=>{const A=RA(R(5,8),1,50);return{t:'合計',q:'配列 A の全要素の合計を表示せよ。',hd:ah(A),cnt:'n',exp:[sumA(A)],sol:(lo,hi)=>`goukei = 0\n${loop(lo,hi)}    goukei = goukei + A[i]\n表示する(goukei)`}},
+()=>{const A=RA(R(5,8),1,99);return{t:'最大値',q:'配列 A の最大値を表示せよ。（関数「最大値」を使わず、比較で求めてみよう）',hd:ah(A),cnt:'n',exp:[Math.max(...A)],sol:(lo,hi)=>`saidai = A[${lo}]\n${loop(lo,hi)}    もし A[i] > saidai ならば:\n        saidai = A[i]\n表示する(saidai)`}},
+()=>{const A=RA(R(6,9),30,100);return{t:'基準以上の個数',q:'配列 A は生徒の点数である。60点以上の人数を表示せよ。',hd:ah(A),cnt:'n',exp:[A.filter(x=>x>=60).length],sol:(lo,hi)=>`kosu = 0\n${loop(lo,hi)}    もし A[i] >= 60 ならば:\n        kosu = kosu + 1\n表示する(kosu)`}},
+()=>{const A=RA(R(5,8),1,30);return{t:'偶数の合計',q:'配列 A のうち、偶数である要素の合計を表示せよ。',hd:ah(A),cnt:'n',exp:[sumA(A.filter(x=>x%2==0))],sol:(lo,hi)=>`goukei = 0\n${loop(lo,hi)}    もし A[i] % 2 == 0 ならば:\n        goukei = goukei + A[i]\n表示する(goukei)`}},
+()=>{const A=RA(R(4,6),1,50);return{t:'逆順に表示',q:'配列 A の要素を、後ろから順に1行ずつ表示せよ。',hd:ah(A),cnt:'n',exp:[...A].reverse(),sol:(lo,hi)=>`i を ${hi} から ${lo} まで 1 ずつ減らしながら繰り返す:\n    表示する(A[i])`}}
+],2:[
+()=>{const A=RA(R(5,8),10,99);return{t:'平均（整数部分）',q:'配列 A の平均の整数部分を表示せよ。（関数「整数」で小数を切り捨てられる）',hd:ah(A),cnt:'n',exp:[Math.floor(sumA(A)/A.length)],sol:(lo,hi)=>`goukei = 0\n${loop(lo,hi)}    goukei = goukei + A[i]\n表示する(整数(goukei / n))`}},
+()=>{const A=uniq(R(5,8),1,60),k=R(0,A.length-1);return{t:'探索',q:'配列 A から x と等しい要素を探し、その添字を表示せよ。',hd:ah(A)+'x = '+A[k]+'\n',cnt:'n',exp:[k+B()],sol:(lo,hi)=>`${loop(lo,hi)}    もし A[i] == x ならば:\n        表示する(i)`}},
+()=>{const A=uniq(R(5,8),1,99);return{t:'最大値の位置',q:'配列 A の最大値がある添字を表示せよ。',hd:ah(A),cnt:'n',exp:[A.indexOf(Math.max(...A))+B()],sol:(lo,hi)=>`ichi = ${lo}\n${loop(lo,hi)}    もし A[i] > A[ichi] ならば:\n        ichi = i\n表示する(ichi)`}},
+()=>{const N=R(12,60);let c=0;for(let i=1;i<=N;i++)if(N%i==0)c++;return{t:'約数の個数',q:'整数 N の約数の個数を表示せよ。',hd:'N = '+N+'\n',cnt:'N',exp:[c],sol:()=>`kosu = 0\ni を 1 から N まで 1 ずつ増やしながら繰り返す:\n    もし N % i == 0 ならば:\n        kosu = kosu + 1\n表示する(kosu)`}},
+()=>{const N=R(10,40);let s=0;for(let i=1;i<=N;i++)if(i%3==0)s+=i;return{t:'3の倍数の合計',q:'1 から N までの整数のうち、3の倍数の合計を表示せよ。',hd:'N = '+N+'\n',cnt:'N',exp:[s],sol:()=>`goukei = 0\ni を 1 から N まで 1 ずつ増やしながら繰り返す:\n    もし i % 3 == 0 ならば:\n        goukei = goukei + i\n表示する(goukei)`}}
+],3:[
+()=>{const t=R(2,5),T=[0];for(let k=R(4,6);k>0;k--)T.push(T[T.length-1]+R(1,4));let end=T[0]+t;const exp=[];for(let k=1;k<T.length;k++){const s=Math.max(T[k],end);exp.push(s-T[k]);end=s+t}
+ return{t:'待ち時間（共通テスト形式）',q:'配列 Touchaku は来訪者の到着時刻（分）、taiken は1人あたりの体験時間（分）。来訪者は到着順に体験し、前の人が終わるまで待つ。2人目以降の待ち時間を1行ずつ表示せよ。',hd:'Touchaku = ['+T.join(', ')+']\ntaiken = '+t+'\nkyakusu = 要素数(Touchaku)\n',cnt:'kyakusu',exp,sol:(lo,hi)=>`owari = Touchaku[${lo}] + taiken\n${loop(lo+1,hi)}    kaishi = 最大値(Touchaku[i], owari)\n    表示する(kaishi - Touchaku[i])\n    owari = kaishi + taiken`}},
+()=>{const A=uniq(R(5,7),1,99);return{t:'並べ替え',q:'配列 A を小さい順に並べ替え、1行ずつ表示せよ。',hd:ah(A),cnt:'n',exp:[...A].sort((x,y)=>x-y),sol:(lo,hi,h1)=>`i を ${lo} から ${h1} まで 1 ずつ増やしながら繰り返す:\n    j を ${lo} から ${h1} まで 1 ずつ増やしながら繰り返す:\n        もし A[j] > A[j + 1] ならば:\n            tmp = A[j]\n            A[j] = A[j + 1]\n            A[j + 1] = tmp\n${loop(lo,hi)}    表示する(A[i])`}},
+()=>{const N=R(10,60);let c=0;for(let i=1;i<=N;i++)if(N%i==0)c++;return{t:'素数判定',q:'整数 N が素数なら 1、そうでなければ 0 を表示せよ。',hd:'N = '+N+'\n',cnt:'N',exp:[c==2?1:0],sol:()=>`kosu = 0\ni を 1 から N まで 1 ずつ増やしながら繰り返す:\n    もし N % i == 0 ならば:\n        kosu = kosu + 1\nもし kosu == 2 ならば:\n    表示する(1)\nそうでなければ:\n    表示する(0)`}}
+]};
+G[1].push(
+()=>{const A=RA(R(5,8),1,99);return{t:'最小値',q:'配列 A の最小値を表示せよ。',hd:ah(A),cnt:'n',exp:[Math.min(...A)],sol:(lo,hi)=>`shou = A[${lo}]\n${loop(lo,hi)}    もし A[i] < shou ならば:\n        shou = A[i]\n表示する(shou)`}},
+()=>{const A=RA(R(6,9),1,60),x=R(20,40);return{t:'x より大きい個数',q:'配列 A のうち、x より大きい要素の個数を表示せよ。',hd:ah(A)+'x = '+x+'\n',cnt:'n',exp:[A.filter(v=>v>x).length],sol:(lo,hi)=>`kosu = 0\n${loop(lo,hi)}    もし A[i] > x ならば:\n        kosu = kosu + 1\n表示する(kosu)`}});
+G[2].push(
+()=>{const A=RA(R(4,6),1,20);let s=0;return{t:'累積和',q:'配列 A の先頭から順に足していった途中経過の合計を、1行ずつ表示せよ。',hd:ah(A),cnt:'n',exp:A.map(v=>s+=v),sol:(lo,hi)=>`goukei = 0\n${loop(lo,hi)}    goukei = goukei + A[i]\n    表示する(goukei)`}},
+()=>{const A=RA(R(7,10),1,5),x=R(1,5);return{t:'出現回数',q:'配列 A の中に x が何個あるかを表示せよ。',hd:ah(A)+'x = '+x+'\n',cnt:'n',exp:[A.filter(v=>v==x).length],sol:(lo,hi)=>`kosu = 0\n${loop(lo,hi)}    もし A[i] == x ならば:\n        kosu = kosu + 1\n表示する(kosu)`}},
+()=>{const A=RA(R(5,8),1,50);let m=0;for(let k=0;k+1<A.length;k++)m=Math.max(m,Math.abs(A[k+1]-A[k]));return{t:'隣り合う差の最大',q:'配列 A の隣り合う2要素の差（大きい方−小さい方）のうち、最大のものを表示せよ。',hd:ah(A),cnt:'n',exp:[m],sol:(lo,hi,h1)=>`sa = 0\n${loop(lo,h1)}    d = A[i + 1] - A[i]\n    もし d < 0 ならば:\n        d = 0 - d\n    もし d > sa ならば:\n        sa = d\n表示する(sa)`}},
+()=>{const N=R(20,300);let x=1;while(x<=N)x*=2;return{t:'2倍していく',q:'x を 1 から始めて2倍を繰り返し、初めて N を超えたときの x を表示せよ。（「の間繰り返す」を使ってみよう）',hd:'N = '+N+'\n',cnt:'N',exp:[x],sol:()=>`x = 1\nx <= N の間繰り返す:\n    x = x * 2\n表示する(x)`}});
+G[3].push(
+()=>{const t=R(2,5),T=[0];for(let k=R(4,6);k>0;k--)T.push(T[T.length-1]+R(1,4));let end=T[0]+t,m=0;for(let k=1;k<T.length;k++){const s=Math.max(T[k],end);m=Math.max(m,s-T[k]);end=s+t}return{t:'最長待ち時間（共通テスト形式）',q:'配列 Touchaku は来訪者の到着時刻（分）、taiken は体験時間（分）。来訪者は到着順に体験し、前の人が終わるまで待つ。待ち時間の最大値（最長待ち時間）を表示せよ。',hd:'Touchaku = ['+T.join(', ')+']\ntaiken = '+t+'\nkyakusu = 要素数(Touchaku)\n',cnt:'kyakusu',exp:[m],sol:(lo,hi)=>`owari = Touchaku[${lo}] + taiken\nsaichou = 0\n${loop(lo+1,hi)}    kaishi = 最大値(Touchaku[i], owari)\n    saichou = 最大値(saichou, kaishi - Touchaku[i])\n    owari = kaishi + taiken\n表示する(saichou)`}},
+()=>{const A=RA(R(7,10),1,9);let m=1,r=1;for(let k=1;k<A.length;k++){r=A[k]>A[k-1]?r+1:1;m=Math.max(m,r)}return{t:'連続して増加する最長の長さ',q:'配列 A で、前の要素より大きい値が連続して続く（隣り合う要素が増加し続ける）最長の長さを表示せよ。長さ1も数える。',hd:ah(A),cnt:'n',exp:[m],sol:(lo,hi)=>`dai = 1\nren = 1\n${loop(lo+1,hi)}    もし A[i] > A[i - 1] ならば:\n        ren = ren + 1\n    そうでなければ:\n        ren = 1\n    もし ren > dai ならば:\n        dai = ren\n表示する(dai)`}},
+()=>{const A=uniq(R(5,8),1,99);return{t:'2番目に大きい値',q:'配列 A（要素はすべて異なる）の中で2番目に大きい値を表示せよ。',hd:ah(A),cnt:'n',exp:[[...A].sort((x,y)=>y-x)[1]],sol:(lo,hi)=>`dai1 = 0\ndai2 = 0\n${loop(lo,hi)}    もし A[i] > dai1 ならば:\n        dai2 = dai1\n        dai1 = A[i]\n    そうでなくもし A[i] > dai2 ならば:\n        dai2 = A[i]\n表示する(dai2)`}});
+const ar=(t,q,A,exp,sol,ex)=>({t,q,hd:ah(A)+(ex||''),cnt:'n',exp,sol});
+const sc=(t,q,hd,exp,sol)=>({t,q,hd,cnt:'N',exp,sol});
+const mkT=()=>{const T=[0];for(let k=R(4,6);k>0;k--)T.push(T[T.length-1]+R(1,4));return T};
+const waits=(T,t)=>{let e=T[0]+t;return T.slice(1).map(a=>{const s=Math.max(a,e);e=s+t;return s-a})};
+const th=(T,t)=>'Touchaku = ['+T.join(', ')+']\ntaiken = '+t+'\nkyakusu = 要素数(Touchaku)\n';
+const TQ='来訪者は到着順に1人ずつ体験し、前の人が終わるまで待つ。配列 Touchaku は到着時刻（分）、taiken は体験時間（分）。';
+G[1].push(
+()=>{const A=RA(R(4,7),1,50);return ar('先頭と末尾の和','配列 A の先頭の要素と末尾の要素の和を表示せよ。',A,[A[0]+A[A.length-1]],(lo,hi)=>`表示する(A[${lo}] + A[${hi}])`)},
+()=>{const A=RA(R(4,6),1,30);return ar('2倍して表示','配列 A の各要素を2倍した値を、1行ずつ表示せよ。',A,A.map(v=>v*2),(lo,hi)=>`${loop(lo,hi)}    表示する(A[i] * 2)`)},
+()=>{const A=RA(R(6,9),1,40);return ar('奇数の個数','配列 A の要素のうち奇数の個数を表示せよ。',A,[A.filter(v=>v%2).length],(lo,hi)=>`kosu = 0\n${loop(lo,hi)}    もし A[i] % 2 == 1 ならば:\n        kosu = kosu + 1\n表示する(kosu)`)},
+()=>{const x=R(1,50),y=R(51,99);return sc('値の入れ替え','変数 x と y の値を入れ替えたあと、x、y の順に1行ずつ表示せよ。',`x = ${x}\ny = ${y}\n`,[y,x],()=>`tmp = x\nx = y\ny = tmp\n表示する(x)\n表示する(y)`)},
+()=>{const N=R(5,40);return sc('1からNの合計','1 から N までの整数の合計を表示せよ。','N = '+N+'\n',[N*(N+1)/2],()=>`goukei = 0\ni を 1 から N まで 1 ずつ増やしながら繰り返す:\n    goukei = goukei + i\n表示する(goukei)`)});
+G[2].push(
+()=>{const A=RA(R(5,8),1,60),s=sumA(A);return ar('平均より大きい個数','配列 A のうち、平均より大きい要素の個数を表示せよ。',A,[A.filter(v=>v*A.length>s).length],(lo,hi)=>`goukei = 0\n${loop(lo,hi)}    goukei = goukei + A[i]\nkosu = 0\n${loop(lo,hi)}    もし A[i] * n > goukei ならば:\n        kosu = kosu + 1\n表示する(kosu)`)},
+()=>{const A=RA(R(5,8),1,99);return ar('最大値と最小値の差','配列 A の最大値と最小値の差を表示せよ。',A,[Math.max(...A)-Math.min(...A)],(lo,hi)=>`dai = A[${lo}]\nshou = A[${lo}]\n${loop(lo,hi)}    もし A[i] > dai ならば:\n        dai = A[i]\n    もし A[i] < shou ならば:\n        shou = A[i]\n表示する(dai - shou)`)},
+()=>{const A=RA(R(5,7),1,30);if(Math.random()<.5)A.sort((x,y)=>x-y);let f=1;for(let k=0;k+1<A.length;k++)if(A[k]>A[k+1])f=0;return ar('昇順の判定','配列 A が小さい順（同じ値は可）に並んでいれば 1、そうでなければ 0 を表示せよ。',A,[f],(lo,hi,h1)=>`flag = 1\n${loop(lo,h1)}    もし A[i] > A[i + 1] ならば:\n        flag = 0\n表示する(flag)`)},
+()=>{const h=R(2,3),a=RA(h,1,3),b=Math.random()<.5?[...a].reverse():RA(h,1,3),A=[...a,...b],f=A.every((v,k)=>v==A[A.length-1-k])?1:0;return ar('回文の判定','配列 A が前から読んでも後ろから読んでも同じ並びなら 1、そうでなければ 0 を表示せよ。',A,[f],(lo,hi)=>`flag = 1\n${loop(lo,hi)}    もし A[i] != A[${lo} + ${hi} - i] ならば:\n        flag = 0\n表示する(flag)`)},
+()=>{const A=RA(R(5,8),1,50),x=R(0,Math.max(...A)-1),k=A.findIndex(v=>v>x);return ar('最初に x を超える位置','配列 A を先頭から見て、最初に x より大きくなる要素の添字を表示せよ。（「の間繰り返す」を使ってみよう）',A,[k+B()],(lo)=>`i = ${lo}\nA[i] <= x の間繰り返す:\n    i = i + 1\n表示する(i)`,'x = '+x+'\n')},
+()=>{const N=R(100,99999),s=String(N).split('').reduce((a,d)=>a+ +d,0);return sc('各桁の和','整数 N の各桁の数字の和を表示せよ。（例：123 なら 6）','N = '+N+'\n',[s],()=>`goukei = 0\nN > 0 の間繰り返す:\n    goukei = goukei + N % 10\n    N = 整数(N / 10)\n表示する(goukei)`)},
+()=>{const N=R(3,8);let f=1;for(let i=2;i<=N;i++)f*=i;return sc('階乗','N の階乗（1×2×…×N）を表示せよ。','N = '+N+'\n',[f],()=>`kekka = 1\ni を 1 から N まで 1 ずつ増やしながら繰り返す:\n    kekka = kekka * i\n表示する(kekka)`)},
+()=>{const A=RA(R(4,6),1,9),Bv=RA(A.length,1,9);return ar('内積','配列 A と B（要素数は同じ）について、A[i]×B[i] の総和を表示せよ。',A,[A.reduce((s,v,k)=>s+v*Bv[k],0)],(lo,hi)=>`kekka = 0\n${loop(lo,hi)}    kekka = kekka + A[i] * B[i]\n表示する(kekka)`,'B = ['+Bv.join(', ')+']\n')},
+()=>{const m=R(0,5),N=(2*R(1,20)+1)*2**m;return sc('2で割れる回数','整数 N を、2で割り切れる限り繰り返し2で割る。割った回数を表示せよ。','N = '+N+'\n',[m],()=>`kai = 0\nN % 2 == 0 の間繰り返す:\n    N = 整数(N / 2)\n    kai = kai + 1\n表示する(kai)`)});
+G[3].push(
+()=>{const A=uniq(R(6,10),1,99).sort((a,b)=>a-b),x=A[R(0,A.length-1)];let l=0,r=A.length-1,c=0;while(l<=r){const md=Math.floor((l+r)/2);c++;if(A[md]==x)break;if(A[md]<x)l=md+1;else r=md-1}return ar('二分探索の比較回数','小さい順に並んだ配列 A から、二分探索で x を見つけるまでの比較回数（中央の要素を調べた回数）を表示せよ。',A,[c],(lo,hi)=>`left = ${lo}\nright = ${hi}\nkai = 0\nleft <= right の間繰り返す:\n    mid = 整数((left + right) / 2)\n    kai = kai + 1\n    もし A[mid] == x ならば:\n        表示する(kai)\n        left = right + 1\n    そうでなくもし A[mid] < x ならば:\n        left = mid + 1\n    そうでなければ:\n        right = mid - 1`,'x = '+x+'\n')},
+()=>{const A=uniq(R(5,7),1,99),Z=[...A];let c=0;for(let i=0;i<Z.length-1;i++)for(let j=0;j<Z.length-1;j++)if(Z[j]>Z[j+1]){[Z[j],Z[j+1]]=[Z[j+1],Z[j]];c++}return ar('並べ替えの交換回数','配列 A を、隣り合う要素を比べて入れ替える方法（バブルソート）で小さい順に並べ替える。入れ替えた回数を表示せよ。（外側・内側とも要素数−1回繰り返す）',A,[c],(lo,hi,h1)=>`kai = 0\n${loop(lo,h1)}    j を ${lo} から ${h1} まで 1 ずつ増やしながら繰り返す:\n        もし A[j] > A[j + 1] ならば:\n            tmp = A[j]\n            A[j] = A[j + 1]\n            A[j + 1] = tmp\n            kai = kai + 1\n表示する(kai)`)},
+()=>{const T=mkT(),t=R(2,5);return{t:'待たされた人数',q:TQ+'待ち時間が1分以上の来訪者の人数を表示せよ。',hd:th(T,t),cnt:'kyakusu',exp:[waits(T,t).filter(w=>w>0).length],sol:(lo,hi)=>`owari = Touchaku[${lo}] + taiken\nninzu = 0\n${loop(lo+1,hi)}    kaishi = 最大値(Touchaku[i], owari)\n    もし kaishi > Touchaku[i] ならば:\n        ninzu = ninzu + 1\n    owari = kaishi + taiken\n表示する(ninzu)`}},
+()=>{const T=mkT();let best=1;for(let t=1;t<=15;t++)if(Math.max(0,...waits(T,t))<10)best=t;return{t:'最長待ち時間が10分未満となる最大の体験時間',q:'来訪者は到着順に1人ずつ体験し、前の人が終わるまで待つ。配列 Touchaku は到着時刻（分）。体験時間 taiken を1〜15分で変えたとき、最長待ち時間が10分未満となる最大の taiken を表示せよ。',hd:'Touchaku = ['+T.join(', ')+']\nkyakusu = 要素数(Touchaku)\n',cnt:'kyakusu',exp:[best],sol:(lo,hi)=>`kekka = 0\ntaiken を 1 から 15 まで 1 ずつ増やしながら繰り返す:\n    owari = Touchaku[${lo}] + taiken\n    saichou = 0\n    i を ${lo+1} から ${hi} まで 1 ずつ増やしながら繰り返す:\n        kaishi = 最大値(Touchaku[i], owari)\n        saichou = 最大値(saichou, kaishi - Touchaku[i])\n        owari = kaishi + taiken\n    もし saichou < 10 ならば:\n        kekka = taiken\n表示する(kekka)`}},
+()=>{const A=RA(R(5,7),2,40),pr=v=>{for(let d=2;d*d<=v;d++)if(v%d==0)return 0;return 1};return ar('素数の個数','配列 A の要素のうち、素数の個数を表示せよ。',A,[A.filter(pr).length],(lo,hi)=>`kosu = 0\n${loop(lo,hi)}    yaku = 0\n    j を 1 から A[i] まで 1 ずつ増やしながら繰り返す:\n        もし A[i] % j == 0 ならば:\n            yaku = yaku + 1\n    もし yaku == 2 ならば:\n        kosu = kosu + 1\n表示する(kosu)`)},
+()=>{const N=R(5,40);let c=0,x=N;while(x!=1){x=x%2?x*3+1:x/2;c++}return sc('コラッツ予想','整数 N に対し「偶数なら2で割り、奇数なら3倍して1を足す」を、N が 1 になるまで繰り返す。繰り返した回数を表示せよ。','N = '+N+'\n',[c],()=>`kai = 0\nN != 1 の間繰り返す:\n    もし N % 2 == 0 ならば:\n        N = 整数(N / 2)\n    そうでなければ:\n        N = N * 3 + 1\n    kai = kai + 1\n表示する(kai)`)},
+()=>{const N=R(5,15);let a=1,b=1;for(let k=3;k<=N;k++){const c=a+b;a=b;b=c}return sc('フィボナッチ数','1番目と2番目が1で、3番目以降は直前の2つの和となる数列がある。N 番目の値を表示せよ。','N = '+N+'\n',[b],()=>`a = 1\nb = 1\ni を 3 から N まで 1 ずつ増やしながら繰り返す:\n    c = a + b\n    a = b\n    b = c\n表示する(b)`)},
+()=>{let a=R(10,99),b=R(10,99);const A0=a,B0=b;while(b){[a,b]=[b,a%b]}return sc('最大公約数','a と b の最大公約数を、ユークリッドの互除法（a を b で割った余りで順に置き換える）で求めて表示せよ。','a = '+A0+'\nb = '+B0+'\n',[a],()=>`b != 0 の間繰り返す:\n    r = a % b\n    a = b\n    b = r\n表示する(a)`)},
+()=>{const A=RA(R(4,6),1,50);return ar('右に1つずらして表示','配列 A の要素を右へ1つずつずらし（末尾の要素は先頭に回す）、その並びを1行ずつ表示せよ。',A,[A[A.length-1],...A.slice(0,-1)],(lo,hi,h1)=>`表示する(A[${hi}])\n${loop(lo,h1)}    表示する(A[i])`)});
+let fill=null;
+const P=src=>{const L=prepare(src);return parse(L,0,(L[0]||{depth:0}).depth)[0]};
+function quick(src){const sv=[env,out,cur,base];env={};out=[];base=B();
+ try{const g=exec(P(src));let k=0;while(!g.next().done)if(++k>20000)return'LOOP';return out.map(String).join('\n')}catch(e){return'ERR'}finally{[env,out,cur,base]=sv}}
+function mut(s,ids){const r=new Set();
+ [['+','-'],['-','+'],['>=','>'],['<=','<'],['>','<'],['<','>'],['==','!='],['!=','=='],['>','>='],['<','<='],['*','+'],['%','*']].forEach(([a,b])=>{const k=s.indexOf(' '+a+' ');if(k>=0)r.add(s.slice(0,k)+' '+b+' '+s.slice(k+a.length+2))});
+ s.replace(/\d+/g,(d,o)=>{[+d+1,+d-1].forEach(w=>{if(w>=0)r.add(s.slice(0,o)+w+s.slice(o+d.length))});return d});
+ s.replace(/\[(\w+)\]/g,(d,v,o)=>{[v+' + 1',v+' - 1'].forEach(w=>r.add(s.slice(0,o)+'['+w+']'+s.slice(o+d.length)));return d});
+ s.replace(/[A-Za-z_]\w*/g,(d,o)=>{ids.forEach(v=>{if(v!=d)r.add(s.slice(0,o)+v+s.slice(o+d.length))});return d});
+ r.add(s+' + 1');r.add(s+' - 1');if(/ [-+] 1$/.test(s))r.add(s.replace(/ [-+] 1$/,''));
+ r.delete(s);return[...r]}
+function mkFill(p,sol){
+ const L=sol.split('\n'),cand=[];let m;
+ L.forEach((ln,i)=>{
+  if(m=ln.match(/^(\s*もし )(.+?)( ならば:)$/))cand.push({i,pre:m[1],ans:m[2],post:m[3]});
+  else if(m=ln.match(/^(\s*\S+ を )(.+?)( から )(.+?)( まで .*)$/)){cand.push({i,pre:m[1],ans:m[2],post:m[3]+m[4]+m[5]});cand.push({i,pre:m[1]+m[2]+m[3],ans:m[4],post:m[5]})}
+  else if(m=ln.match(/^(\s*)(.+?)( の間繰り返す:)$/))cand.push({i,pre:m[1],ans:m[2],post:m[3]});
+  else if(m=ln.match(/^(\s*表示する\()(.+)(\))$/))cand.push({i,pre:m[1],ans:m[2],post:m[3]});
+  else if((m=ln.match(/^(\s*[^\s=\[\]]+(?:\[[^\]]*\])?\s*=\s*)(.+)$/))&&m[2][0]!='[')cand.push({i,pre:m[1],ans:m[2],post:''});
+ });
+ const need=R(3,4),used=new Set(),pick=[];
+ for(const c of cand.sort(()=>Math.random()-.5)){if(used.has(c.i))continue;used.add(c.i);pick.push(c);if(pick.length>=need)break}
+ if(pick.length<2)return null;
+ pick.sort((a,b)=>a.i-b.i);
+ const ids=[...new Set(sol.match(/[A-Za-z_]\w*/g)||[])],E1=p.exp.map(String).join('\n');
+ const slots=pick.map((c,k)=>({id:'アイウエ'[k],c,sel:''}));
+ const src=f=>{const M=[...L];slots.forEach((s,k)=>{M[s.c.i]=s.c.pre+f(s,k)+s.c.post});return p.hd+'\n'+M.join('\n')};
+ if(quick(src(s=>s.c.ans))!==E1)return null;
+ slots.forEach((s,k)=>{const ds=[];for(const d of mut(s.c.ans,ids).sort(()=>Math.random()-.5)){if(ds.length>=3)break;if(quick(src((t,j)=>j==k?d:t.c.ans))!==E1)ds.push(d)}
+  s.choices=[s.c.ans,...ds].sort(()=>Math.random()-.5)});
+ if(slots.some(s=>s.choices.length<3))return null;
+ return{L,slots,hd:p.hd}
+}
+function fillSrc(){const M=[...fill.L];fill.slots.forEach(s=>{M[s.c.i]=s.c.pre+(s.sel||'【'+s.id+'】')+s.c.post});return fill.hd+'\n'+M.join('\n')}
+function renderFill(){
+ const M=fill.L.map(esc);
+ fill.slots.forEach((s,k)=>{M[s.c.i]=esc(s.c.pre)+'<select data-k="'+k+'"><option value="">【'+s.id+'】</option>'+s.choices.map((c,j)=>'<option value="'+j+'"'+(s.sel===c?' selected':'')+'>'+esc(c)+'</option>').join('')+'</select>'+esc(s.c.post)});
+ $('#fillbox').innerHTML='<pre>'+esc(fill.hd)+'\n'+M.join('\n')+'</pre>';
+ $('#fillbox').querySelectorAll('select').forEach(e=>e.onchange=()=>{const s=fill.slots[+e.dataset.k];s.sel=e.value===''?'':s.choices[+e.value];reset();$('#src').value=fillSrc()});
+}
+function fillRes(){return(prob&&fill&&prob.mode=='f')?'空欄：'+fill.slots.map(s=>s.id+(s.sel===s.c.ans?'○':'×')).join('　'):''}
+$('#mode').onchange=()=>newProb();
+const IDEA=[
+['合計','合計用の変数を 0 で初期化し、配列の要素を先頭から順に足し込んでいく。「累積」の基本パターン。'],
+['最大値の位置','最大値そのものではなく「どの添字か」を覚えておく。比較は A[ichi] と行い、更新するときは添字 i を代入する。'],
+['最大値と最小値','最大用・最小用の2つの変数を先頭要素で初期化し、1回の繰り返しで同時に更新する。'],
+['最大値','先頭要素を暫定の最大値とし、1つずつ比べ、より大きいものが見つかったら置き換える。初期値を 0 にすると負の値がある場合に誤るので、配列の要素で初期化するのが定石。'],
+['最小値','最大値の求め方の不等号を逆にしたもの。先頭要素で初期化する。'],
+['基準以上','カウンタを 0 で初期化し、条件を満たすたびに 1 増やす。「もし」の中でだけ加算するのがポイント。'],
+['偶数の合計','「もし A[i] % 2 == 0」で偶数だけを選び、合計に足す。% は余りを求める演算。'],
+['奇数','2で割った余りが 1 なら奇数。条件に合う要素を数える個数カウントのパターン。'],
+['逆順','添字を最後から先頭へ「減らしながら」繰り返す。増やす繰り返しではなく、減らす繰り返しを使う。'],
+['x より大きい','条件を「A[i] > x」にした個数カウント。x と等しいものは数えない点に注意。'],
+['先頭','繰り返しは不要。先頭と末尾の添字を直接指定する。添字の始まり（0か1か）に注意。'],
+['2倍して表示','各要素を取り出して計算した結果を、繰り返しの中でそのつど表示する。'],
+['値の入れ替え','x = y としてしまうと元の x の値が消える。一時変数 tmp に退避してから入れ替える。'],
+['1から','変数 i を 1 から N まで動かして合計に足す。'],
+['平均より','平均と比べる代わりに A[i]×n > 合計 とすれば小数を使わずに比較できる。合計を求める繰り返しと、数える繰り返しの2回に分ける。'],
+['平均','合計を要素数で割る。整数(…) で小数部分を切り捨てる。'],
+['探索','先頭から順に調べ、等しい要素が見つかった添字を表示する。'],
+['約数','1 から N までの各 i について、N % i == 0 なら i は約数。該当するたびにカウントする。'],
+['3の倍数','i % 3 == 0 のときだけ合計に足す。条件付きの合計のパターン。'],
+['累積和','合計を 0 から始め、足すたびにその都度表示する。表示を繰り返しの外に出すと最終値だけになる。'],
+['出現','A[i] == x のとき加算する個数カウント。等号は == （= は代入）を使う。'],
+['隣り合う','隣との比較で A[i+1] を使うので、繰り返しは最後の1つ手前まで。差が負のときは符号を反転して絶対値にする。'],
+['2倍してい','回数が決まっていない繰り返しなので「の間繰り返す」を使う。x が N 以下の間、2倍し続け、抜けたときの x が答え。'],
+['昇順','旗（flag）を 1 にしておき、逆順の組を見つけたら 0 にする。「すべてが条件を満たす」判定の定石。'],
+['回文','i 番目と、前後対称の位置の要素を比べる。1つでも違えば flag を 0 にする。'],
+['最初に','添字 i を先頭から進め、A[i] <= x の間は i を 1 増やす。抜けたときの i が答え。'],
+['各桁','N % 10 で一の位を取り出し、整数(N / 10) で一の位を切り捨てる。N が 0 になるまで繰り返す。'],
+['階乗','結果を 1 で初期化し（0 だと積が常に 0 になる）、1〜N を順にかけ込む。'],
+['内積','同じ添字の要素同士 A[i]×B[i] を掛けて合計する。'],
+['2で割れる','割り切れる間、2で割りつづけ、割った回数を数える。'],
+['最長待ち時間が','体験時間 taiken を変える外側の繰り返しと、待ち時間を求める内側の繰り返しの二重ループ。owari と saichou は外側の繰り返しごとに初期化し直す。'],
+['最長待ち時間','待ち時間を求めるたびに「最大値(saichou, 待ち時間)」で更新。saichou は 0 で初期化。'],
+['待たされ','開始時刻が到着時刻より遅ければ待っている。そのときだけカウントする。'],
+['待ち時間','開始時刻は「自分の到着時刻」と「直前の人の終了時刻」の遅い方（最大値）。待ち時間＝開始時刻−到着時刻、終了時刻＝開始時刻＋体験時間。これを順に更新する。'],
+['並べ替えの','バブルソートの交換処理（tmp を使った入れ替え）のたびにカウンタを 1 増やす。'],
+['並べ替え','隣り合う要素を比べて大きい方を後ろへ送るバブルソート。外側で何度も全体を走査し、内側で隣同士を比較・交換する。'],
+['素数の個数','各要素について約数の個数を数え、ちょうど2個なら素数。二重ループで、要素ごとに yaku を 0 に戻す。'],
+['素数','約数がちょうど2個（1と自分自身）なら素数。1 は素数ではない。'],
+['連続','直前より大きければ連続長 ren を +1、そうでなければ 1 に戻す。そのたびに最大 dai と比べて更新する。'],
+['2番目','最大 dai1 と 2番目 dai2 を保持。より大きい値が来たら dai1 を dai2 に落として更新し、そうでなく dai2 より大きければ dai2 だけ更新。'],
+['二分','探す範囲 [left, right] の中央 mid を調べ、小さければ右半分、大きければ左半分に狭める。比較のたびに回数を数える。'],
+['コラッツ','終わりの回数がわからない繰り返しなので「の間繰り返す」。偶数・奇数で処理を分け、回数を数える。'],
+['フィボ','直前の2項 a, b から次の項 c = a + b を作り、a, b をずらしていく。代入の順序に注意。'],
+['最大公約数','a を b で割った余り r を使い、(a, b) を (b, r) に置き換える操作を b が 0 になるまで繰り返す。そのときの a が答え。'],
+['右に','末尾の要素を先に表示し、その後で先頭から末尾の1つ手前までを表示する。']];
+function lineEx(t){let m;
+ if(m=t.match(/^もし (.+) ならば:$/))return '条件「'+m[1]+'」が成り立つときだけ、字下げした部分を実行する。';
+ if(m=t.match(/^そうでなくもし (.+) ならば:$/))return '上の条件が成り立たず、かつ「'+m[1]+'」が成り立つときに実行する。';
+ if(t=='そうでなければ:')return 'どの条件にも当てはまらないときに実行する。';
+ if(m=t.match(/^(\S+) を (.+?) から (.+?) まで 1 ずつ(増やし|減らし)ながら繰り返す:$/))return m[1]+' を '+m[2]+' から '+m[3]+' まで 1 ずつ'+(m[4]=='増やし'?'増や':'減ら')+'しながら、字下げした部分を繰り返す。';
+ if(m=t.match(/^(.+) の間繰り返す:$/))return '「'+m[1]+'」が成り立つ間、字下げした部分を繰り返す。（条件が変化する処理がないと無限ループになる）';
+ if(m=t.match(/^表示する\((.*)\)$/))return '「'+m[1]+'」の値を表示する。';
+ if(m=t.match(/^([^\s=\[\]]+(?:\[[^\]]*\])?) = (.+)$/)){const l=m[1],r=m[2];
+  if(/^-?\d+$/.test(r)&&!l.includes('['))return '変数 '+l+' を '+r+' で初期化する。';
+  if(l.includes('['))return '配列の要素 '+l+' に '+r+' を代入する。';
+  if(r.startsWith(l+' '))return l+' の値を更新する（'+r+'）。';
+  return l+' に '+r+' を代入する。'}
+ return''}
+function showExp(){
+ if(!prob)return;
+ const idea=(IDEA.find(([k])=>prob.t.startsWith(k))||[0,'与えられたデータを順に処理して答えを求める。'])[1];
+ const rows=$('#solpre').textContent.split('\n').map(l=>{const e=lineEx(l.trim());return'<div class="exl">'+esc(l)+(e?'<span>→ '+esc(e)+'</span>':'')+'</div>'}).join('');
+ let fx='';
+ if(fill&&prob.mode=='f'){
+  const mk=(k,v)=>{const M=[...fill.L];fill.slots.forEach((s,j)=>{M[s.c.i]=s.c.pre+(j==k?v:s.c.ans)+s.c.post});return fill.hd+'\n'+M.join('\n')};
+  const sh=o=>o=='ERR'?'エラー':o=='LOOP'?'無限ループ':(o.replace(/\n/g,' / ').slice(0,40)||'（表示なし）');
+  fx='<h3>空欄の解説</h3>'+fill.slots.map((s,k)=>'<div><b>'+s.id+'</b>'+s.choices.map(c=>c===s.c.ans?'<div>○ <code>'+esc(c)+'</code> ← 正解</div>':'<div>× <code>'+esc(c)+'</code> → 出力：'+esc(sh(quick(mk(k,c))))+'</div>').join('')+'</div>').join('<br>');
+ }
+ $('#expbox').innerHTML='<h3>考え方</h3><div>'+esc(idea)+'</div><h3>解答プログラムと行ごとの説明</h3>'+rows+'<h3>正しい出力</h3><div>'+esc(prob.exp.join(' / '))+'</div>'+fx;
+ $('#expc').style.display='';
+}
+const CS={
+'基本':[
+['代入','変数に値を入れる','x = 10'],
+['配列','配列を作り、要素数を数える','A = [3, 1, 4, 1, 5]\nn = 要素数(A)'],
+['配列の書き換え','配列の先頭を書き換える','A[{lo}] = 100'],
+['表示','結果を表示する','表示する("答え：", x)'],
+['乱数','0〜9 の乱数','x = 乱数(9)'],
+['整数化','小数点以下を切り捨てる','x = 整数(7 / 2)'],
+['入れ替え','tmp で x と y を入れ替える','tmp = x\nx = y\ny = tmp']],
+'繰り返し':[
+['増やす繰り返し','i を 1 から 10 まで','i を 1 から 10 まで 1 ずつ増やしながら繰り返す:\n    表示する(i)'],
+['配列を全部見る','配列 A の全要素を先頭から','i を {lo} から {hi} まで 1 ずつ増やしながら繰り返す:\n    表示する(A[i])'],
+['減らす繰り返し','後ろから先頭へ','i を {hi} から {lo} まで 1 ずつ減らしながら繰り返す:\n    表示する(A[i])'],
+['条件で繰り返す','回数が決まっていない繰り返し（無限ループに注意）','x = 1\nx < 100 の間繰り返す:\n    x = x * 2\n表示する(x)'],
+['二重ループ','九九の表','i を 1 から 3 まで 1 ずつ増やしながら繰り返す:\n    j を 1 から 3 まで 1 ずつ増やしながら繰り返す:\n        表示する(i, " × ", j, " = ", i * j)']],
+'条件':[
+['もし','条件が成り立つときだけ','もし x > 0 ならば:\n    表示する("正の数")'],
+['もし〜そうでなければ','2つに分岐','もし x % 2 == 0 ならば:\n    表示する("偶数")\nそうでなければ:\n    表示する("奇数")'],
+['3分岐','そうでなくもし を使う','もし x >= 80 ならば:\n    表示する("A")\nそうでなくもし x >= 60 ならば:\n    表示する("B")\nそうでなければ:\n    表示する("C")'],
+['かつ（and）','両方成り立つとき','もし x >= 10 and x <= 20 ならば:\n    表示する("10以上20以下")'],
+['または（or）','どちらか成り立つとき','もし x < 0 or x > 100 ならば:\n    表示する("範囲外")']],
+'定番アルゴリズム':[
+['合計','A の合計 → goukei','goukei = 0\ni を {lo} から {hi} まで 1 ずつ増やしながら繰り返す:\n    goukei = goukei + A[i]\n表示する(goukei)'],
+['平均（整数）','合計÷要素数の整数部分','goukei = 0\ni を {lo} から {hi} まで 1 ずつ増やしながら繰り返す:\n    goukei = goukei + A[i]\n表示する(整数(goukei / n))'],
+['最大値','A の最大値 → saidai','saidai = A[{lo}]\ni を {lo} から {hi} まで 1 ずつ増やしながら繰り返す:\n    もし A[i] > saidai ならば:\n        saidai = A[i]\n表示する(saidai)'],
+['最小値','A の最小値 → shou','shou = A[{lo}]\ni を {lo} から {hi} まで 1 ずつ増やしながら繰り返す:\n    もし A[i] < shou ならば:\n        shou = A[i]\n表示する(shou)'],
+['最大値の位置','最大値がある添字 → ichi','ichi = {lo}\ni を {lo} から {hi} まで 1 ずつ増やしながら繰り返す:\n    もし A[i] > A[ichi] ならば:\n        ichi = i\n表示する(ichi)'],
+['個数を数える','60以上の個数 → kosu','kosu = 0\ni を {lo} から {hi} まで 1 ずつ増やしながら繰り返す:\n    もし A[i] >= 60 ならば:\n        kosu = kosu + 1\n表示する(kosu)'],
+['線形探索','x と等しい要素の添字（見つからなければ 0）','x = 4\nichi = 0\ni を {lo} から {hi} まで 1 ずつ増やしながら繰り返す:\n    もし A[i] == x ならば:\n        ichi = i\n表示する(ichi)'],
+['旗で判定','昇順に並んでいるか（1→YES）','flag = 1\ni を {lo} から {h1} まで 1 ずつ増やしながら繰り返す:\n    もし A[i] > A[i + 1] ならば:\n        flag = 0\n表示する(flag)'],
+['バブルソート','A を小さい順に並べ替えて表示','i を {lo} から {h1} まで 1 ずつ増やしながら繰り返す:\n    j を {lo} から {h1} まで 1 ずつ増やしながら繰り返す:\n        もし A[j] > A[j + 1] ならば:\n            tmp = A[j]\n            A[j] = A[j + 1]\n            A[j + 1] = tmp\ni を {lo} から {hi} まで 1 ずつ増やしながら繰り返す:\n    表示する(A[i])'],
+['二分探索','小さい順の A から x を探す（A を昇順にしておく）','x = 4\nleft = {lo}\nright = {hi}\nichi = 0\nleft <= right の間繰り返す:\n    mid = 整数((left + right) / 2)\n    もし A[mid] == x ならば:\n        ichi = mid\n        left = right + 1\n    そうでなくもし A[mid] < x ならば:\n        left = mid + 1\n    そうでなければ:\n        right = mid - 1\n表示する(ichi)'],
+['素数判定','N が素数か','N = 17\nkosu = 0\ni を 1 から N まで 1 ずつ増やしながら繰り返す:\n    もし N % i == 0 ならば:\n        kosu = kosu + 1\nもし kosu == 2 ならば:\n    表示する("素数")\nそうでなければ:\n    表示する("素数ではない")'],
+['約数をすべて表示','N の約数の一覧','N = 36\ni を 1 から N まで 1 ずつ増やしながら繰り返す:\n    もし N % i == 0 ならば:\n        表示する(i)'],
+['最大公約数','ユークリッドの互除法','a = 48\nb = 18\nb != 0 の間繰り返す:\n    r = a % b\n    a = b\n    b = r\n表示する(a)'],
+['累積和','足していく途中経過を表示','goukei = 0\ni を {lo} から {hi} まで 1 ずつ増やしながら繰り返す:\n    goukei = goukei + A[i]\n    表示する(goukei)'],
+['フィボナッチ数列','最初の10項','a = 1\nb = 1\ni を 1 から 10 まで 1 ずつ増やしながら繰り返す:\n    表示する(a)\n    c = a + b\n    a = b\n    b = c'],
+['各桁の和','N の各桁の和','N = 12345\ngoukei = 0\nN > 0 の間繰り返す:\n    goukei = goukei + N % 10\n    N = 整数(N / 10)\n表示する(goukei)']]};
+const STARTER='# フリーモード：自由にプログラムを書いて「実行」しよう\n# 「コードセット」から部品を挿入できます\nA = [3, 1, 4, 1, 5]\nn = 要素数(A)\n';
+let free=false;
+const fmt=c=>{const b=B();return c.replace(/\{lo1\}/g,b+1).replace(/\{lo\}/g,b).replace(/\{h1\}/g,b?'n - 1':'n - 2').replace(/\{hi\}/g,b?'n':'n - 1').replace(/\{kh\}/g,b?'kyakusu':'kyakusu - 1')};
+function ins(code){
+ reset();const ta=$('#src'),v=ta.value,p=ta.selectionStart==null?v.length:ta.selectionStart;
+ const a=p?v.lastIndexOf('\n',p-1)+1:0;let b=v.indexOf('\n',p);if(b<0)b=v.length;
+ const line=v.slice(a,b),sp=line.match(/^ */)[0].length,blank=!line.trim();
+ const ind=' '.repeat(blank?sp:sp+(line.trim().endsWith(':')?4:0)),txt=code.split('\n').map(l=>ind+l).join('\n');
+ ta.value=blank?v.slice(0,a)+txt+v.slice(b):v.slice(0,b)+'\n'+txt+v.slice(b);
+}
+function csList(k){const l=$('#csList');l.innerHTML='';CS[k].forEach(([n,d,c])=>{const b=document.createElement('button');b.className='chip';b.textContent='＋ '+n;b.onclick=()=>{ins(fmt(c));$('#csDesc').textContent='「'+n+'」を挿入しました：'+d};l.appendChild(b)})}
+function csInit(){const cat=$('#csCat');Object.keys(CS).forEach((k,j)=>{const b=document.createElement('button');b.className='tab'+(j?'':' on');b.textContent=k;b.onclick=()=>{cat.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));csList(k)};cat.appendChild(b)});csList(Object.keys(CS)[0])}
+function setFree(on,keep){free=on;
+ $('#bNew').closest('.card').style.display=on?'none':'';$('#bCheck').style.display=on?'none':'';$('#bClear').style.display=on?'':'none';$('#bRun').className=on?'p':'';
+ $('#tTask').classList.toggle('on',!on);$('#tFree').classList.toggle('on',on);
+ if(on){$('#cs').open=true;prob=null;fill=null;$('#fillc').style.display='none';$('#expc').style.display='none';$('#res').className='res';reset();if(!keep&&!$('#src').value.trim())$('#src').value=STARTER}
+ else{$('#cs').open=false;newProb()}
+}
+$('#tTask').onclick=()=>{if(free)setFree(false)};$('#tFree').onclick=()=>{if(!free)setFree(true)};
+$('#bClear').onclick=()=>{reset();$('#src').value=STARTER};
+csInit();
+let autoT=null;
+function autoStop(){if(autoT){clearInterval(autoT);autoT=null}const b=$('#bAuto');if(b)b.textContent='⏩ 連続ステップ'}
+function autoStart(){
+ if(autoT){autoStop();return}
+ if(done){done=false;gen=null}
+ $('#bAuto').textContent='⏸ 一時停止';
+ autoT=setInterval(()=>{step();if(!gen)autoStop()},+$('#spd').value);
+}
+function newProb(same){
+ let lv,gi;
+ if(same&&prob){lv=prob.lv;gi=prob.gi}
+ else{const sel=+$('#lvl').value,all=[];for(const l of [1,2,3])if(!sel||sel==l)G[l].forEach((_,g)=>all.push([l,g]));
+  const c=all.filter(x=>!(prob&&x[0]==prob.lv&&x[1]==prob.gi));[lv,gi]=c[R(0,c.length-1)]}
+ const pm=same&&prob?prob.mode:($('#mode').value=='m'?(Math.random()<.5?'w':'f'):$('#mode').value);const p=G[lv][gi]();p.lv=lv;p.gi=gi;p.mode=pm;prob=p;
+ const b=B(),hi=b?p.cnt:p.cnt+' - 1',h1=b?p.cnt+' - 1':p.cnt+' - 2';
+ $('#pt').innerHTML='<b>'+esc(p.t)+'</b><br>'+esc(p.q)+'<br><span class="mut">答えは 表示する(…) で数値だけを表示。</span><pre>'+esc(p.hd)+'</pre>';
+ $('#solpre').textContent=p.sol(b,hi,h1);
+ reset();fill=null;if(pm=='f'){fill=mkFill(p,$('#solpre').textContent);if(!fill)p.mode='w'}
+ $('#fillc').style.display=p.mode=='f'?'':'none';$('#expc').style.display='none';$('#solbox').style.display=p.mode=='f'?'none':'';
+ if(p.mode=='f'){renderFill();$('#src').value=fillSrc();$('#pt').insertAdjacentHTML('beforeend','<div class="mut">🧩 空欄に入るものを選んでプログラムを完成させよう。完成したら「実行」「ステップ」で動かしたり、下のエディタで書き換えて試せます。</div>')}else $('#src').value=p.hd+'\n# ここから下にプログラムを書く\n';
+ $('#res').className='res';$('#res').textContent='';
+ document.querySelectorAll('.chip').forEach(c=>c.classList.remove('on'));
+}
+function check(){
+ const fr=fillRes();runAll();if(!prob)return;showExp();if(!done){if(fr){$('#res').className='res ng';$('#res').innerHTML=fr}return}
+ const got=out.map(s=>String(s).trim()),exp=prob.exp.map(String);
+ const ok=got.length==exp.length&&got.every((v,i)=>v==exp[i]);
+ $('#res').className='res '+(ok?'ok':'ng');
+ $('#res').innerHTML=ok?'🎉 正解！':'❌ 不正解<br>期待：'+esc(exp.join(' / '))+'<br>あなた：'+esc(got.join(' / ')||'（何も表示されていません）');
+ if(fr)$('#res').innerHTML+='<br>'+fr;
+ $('#res').innerHTML+='<br><span class="mut">📖 解説は一番下にあります</span>';
+}
+$('#bNew').onclick=()=>newProb();$('#lvl').onchange=()=>newProb();$('#bCheck').onclick=check;
+$('#bSol').onclick=()=>{if(!prob)return;reset();$('#src').value=prob.hd+'\n'+$('#solpre').textContent;showExp()};
+function baseEx(){const b=B(),L=b?'1':'0',last=b?'n':'n - 1';
+ $('#baseEx').innerHTML='例：<code>A = [10, 20, 30]</code>（要素数 n = 3）のとき<div class="arr" style="margin:4px 0">'+[10,20,30].map((v,i)=>'<span><i>A['+(i+b)+']</i>'+v+'</span>').join('')+'</div>・最初の要素は <code>A['+L+']</code>、最後の要素は <code>A['+last+']</code>（= A['+(b?3:2)+']）<br>・全要素を調べる繰り返し：<code>i を '+L+' から '+last+' まで 1 ずつ増やしながら繰り返す:</code><br><span class="mut">→ 切り替えると、課題のデータやコードセットもこの添字に合わせて変わります。</span>'}
+$('#base').addEventListener('change',baseEx);baseEx();
+newProb();
+</script>
+</body>
+</html>
