@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="共通テスト「情報」のプログラミング（共通テスト用プログラム表記）を練習できる無料ツール。ランダム課題・空欄補充・ステップ実行・フリーモードで、スマホでも手軽に学べます。">
+<meta name="description" content="共通テスト「情報」のプログラミング（共通テスト用プログラム表記）を練習できる無料ツール。ランダム課題・空欄補充・結果予想・トレース表・本番形式・ステップ実行・フリーモードで、スマホでも手軽に学べます。">
 <meta property="og:type" content="website">
 <meta property="og:title" content="共通テスト プログラミング シミュレータ">
-<meta property="og:description" content="ランダム課題・空欄補充・ステップ実行で、共通テスト「情報」のプログラミングを練習しよう。">
+<meta property="og:description" content="ランダム課題・空欄補充・トレース表・本番形式で、共通テスト「情報」のプログラミングを練習しよう。">
 <meta name="theme-color" content="#2557d6">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%96%A5%3C/text%3E%3C/svg%3E">
 <title>共通テスト プログラミング シミュレータ</title>
@@ -42,6 +42,7 @@ textarea{height:300px;resize:vertical;white-space:pre;overflow:auto}
 .arr i{display:block;font-size:10px;color:var(--mut);font-style:normal;border-bottom:1px solid var(--bd)}
 pre{margin:0;font:13px/1.6 ui-monospace,Menlo,monospace;white-space:pre-wrap;min-height:22px}
 .exl{font:13px/1.5 ui-monospace,Menlo,monospace;white-space:pre-wrap;margin:3px 0}.exl span{display:block;color:var(--mut);font:12px/1.4 -apple-system,sans-serif;padding-left:1em;white-space:normal}#expbox h3{font-size:13px;margin:12px 0 4px}#expbox code{background:var(--acbg);padding:0 4px;border-radius:4px}
+.tt{border-collapse:collapse;font:12px/1.4 ui-monospace,Menlo,monospace}.tt th,.tt td{border:1px solid var(--bd);padding:2px 6px;text-align:center;white-space:nowrap}.tt th{background:var(--acbg)}.tt td.c{background:var(--ch)}.ti{width:3.4em;font:inherit;text-align:center;border:1px solid var(--ac);border-radius:5px;background:var(--card);color:var(--tx)}
 .tbw{overflow-x:auto}.tb{width:100%;border-collapse:collapse;margin:4px 0 10px;font-size:13px}.tb th,.tb td{border:1px solid var(--bd);padding:4px 6px;text-align:left;vertical-align:top}.tb th{background:var(--acbg);font-weight:600;white-space:nowrap}
 .gx{background:var(--acbg);border-radius:8px;padding:6px 8px;margin:4px 0 2px}.gr{color:var(--mut);font-size:12px;margin:0 0 8px}
 button.tab{padding:6px 14px;border-radius:999px;font-size:14px}button.tab.on{background:var(--ac);color:#fff;border-color:var(--ac)}
@@ -53,12 +54,17 @@ button.tab{padding:6px 14px;border-radius:999px;font-size:14px}button.tab.on{bac
 <body>
 <main>
 <h1>🖥 共通テスト プログラミング シミュレータ</h1>
-<div class="row" style="margin-bottom:10px"><button class="tab on" id="tTask">🎯 課題モード</button><button class="tab" id="tFree">🆓 フリーモード</button></div>
+<div class="row" style="margin-bottom:10px"><button class="tab on" id="tTask">🎯 課題モード</button><button class="tab" id="tExam">🏫 本番形式</button><button class="tab" id="tFree">🆓 フリーモード</button></div>
 <div class="card">
  <h2>🎲 ランダム課題（自分でプログラムを書いて答え合わせ）</h2>
- <div class="row"><select id="lvl"><option value="0" selected>🎲 おまかせ（全種類）</option><option value="1">★ やさしい</option><option value="2">★★ ふつう</option><option value="3">★★★ むずかしい</option></select><select id="mode"><option value="m" selected>🎲 形式おまかせ</option><option value="w">✍ 記述式</option><option value="f">🧩 空欄補充式</option></select><button class="p" id="bNew">🎲 新しい課題</button></div>
+ <div class="row"><select id="lvl"><option value="0" selected>🎲 おまかせ（全種類）</option><option value="1">★ やさしい</option><option value="2">★★ ふつう</option><option value="3">★★★ むずかしい</option></select><select id="mode"><option value="m" selected>🎲 形式おまかせ</option><option value="w">✍ 記述式</option><option value="f">🧩 空欄補充式</option><option value="p">🔮 結果予想</option><option value="t">📊 トレース表の穴埋め</option></select><button class="p" id="bNew">🎲 新しい課題</button></div>
  <div id="pt" style="margin-top:8px"></div>
- <div id="fillc" style="display:none;margin-top:8px"><h2>🧩 空欄補充：選択肢から選んで完成させよう</h2><div id="fillbox"></div></div><details id="solbox" style="margin-top:6px"><summary>解答例を見る</summary><pre id="solpre"></pre><button id="bSol" style="margin-top:6px">解答例をエディタに入れる</button></details>
+ <div id="fillc" style="display:none;margin-top:8px"><h2>🧩 空欄補充：選択肢から選んで完成させよう</h2><div id="fillbox"></div></div><div id="predc" style="display:none;margin-top:8px"><h2 id="predh"></h2><div id="predbox"></div></div><details id="solbox" style="margin-top:6px"><summary>解答例を見る</summary><pre id="solpre"></pre><button id="bSol" style="margin-top:6px">解答例をエディタに入れる</button></details>
+</div>
+<div class="card" id="examc" style="display:none">
+ <h2>🏫 本番形式（長い問題文を読んで、問1→問2→問3と段階的に解く）</h2>
+ <div class="row"><button class="p" id="bExamNew">🎲 新しい問題セット</button></div>
+ <div id="exbox" style="margin-top:8px"></div>
 </div>
 <div class="card">
  <h2>設定</h2>
@@ -77,6 +83,7 @@ button.tab{padding:6px 14px;border-radius:999px;font-size:14px}button.tab.on{bac
  <div id="st"></div><div id="res" class="res"></div>
 </div>
 <div class="card"><h2>変数のようす <span class="mut">（緑＝直前で変化）</span></h2><div id="vars"></div></div>
+<div class="card" id="tracec" style="display:none"><h2>📊 トレース表 <span class="mut">（1行実行するごとの変数の値・緑＝その行で変化）</span></h2><div class="tbw" id="tracebox"></div></div>
 <div class="card"><h2>表示（出力）</h2><pre id="out"></pre></div>
 <div class="card" id="expc" style="display:none"><h2>📖 解説</h2><div id="expbox"></div></div>
 <div class="card"><details><summary>📚 書き方ガイド（基本・実例・使える書き方）</summary>
@@ -267,30 +274,30 @@ function renderVars(hl){
   return'<div class="var '+(hl&&JSON.stringify(p)!==JSON.stringify(v)?'ch':'')+'"><b>'+esc(k)+'</b> = '+esc(v)+'</div>'}).join('');
  prev=JSON.parse(JSON.stringify(env,(k,v)=>v===undefined?null:v));
 }
-function show(errNo,hl){renderList(errNo);renderVars(hl);$('#out').textContent=out.join('\n')}
+function show(errNo,hl){renderList(errNo);renderVars(hl);renderTrace();$('#out').textContent=out.join('\n')}
 function begin(){
- base=+$('#base').value;env={};out=[];prev={};cur=null;steps=0;done=false;
+ base=+$('#base').value;env={};out=[];prev={};cur=null;steps=0;done=false;trace=[];tcols=[];ttrunc=false;
  tree=parse(prepare($('#src').value),0,(prepare($('#src').value)[0]||{depth:0}).depth)[0];
  gen=exec(tree);$('#src').style.display='none';$('#lst').style.display='block';
 }
 function fail(e){gen=null;if(e instanceof E){setSt('⚠ '+e.no+'行目：'+e.message,1);show(e.no,false)}else{setSt('⚠ '+e.message,1);show(0,false)}}
 function step(){
  try{if(!gen&&!done)begin();if(done)return;
-  const r=gen.next();steps++;
+  const r=gen.next();steps++;if(!r.done)rec();
   if(r.done){done=true;gen=null;setSt('✅ 終了（'+steps+'ステップ）');show(0,true)}
   else{setSt(cur.no+'行目を実行　（'+steps+'ステップ目）');show(0,true)}
  }catch(e){fail(e)}
 }
 function runAll(){autoStop();
  try{begin();let r;
-  while(!(r=gen.next()).done){if(++steps>100000)throw new E('100000ステップを超えました。無限ループの可能性があります',cur.no)}
+  while(!(r=gen.next()).done){rec();if(++steps>100000)throw new E('100000ステップを超えました。無限ループの可能性があります',cur.no)}
   done=true;gen=null;setSt('✅ 実行完了（'+steps+'ステップ）');show(0,false)
  }catch(e){fail(e)}
 }
-function reset(){autoStop();gen=null;done=false;cur=null;$('#src').style.display='block';$('#lst').style.display='none';setSt('');$('#vars').innerHTML='<span class="mut">（まだ変数はありません）</span>';$('#out').textContent='';prev={}}
+function reset(){autoStop();gen=null;trace=[];$('#tracec').style.display='none';done=false;cur=null;$('#src').style.display='block';$('#lst').style.display='none';setSt('');$('#vars').innerHTML='<span class="mut">（まだ変数はありません）</span>';$('#out').textContent='';prev={}}
 function load(name){if(!free)setFree(true,true);prob=null;fill=null;$('#expc').style.display='none';$('#fillc').style.display='none';$('#solbox').style.display='';$('#res').className='res';$('#src').value=PRE[name];document.querySelectorAll('.chip').forEach(c=>c.classList.toggle('on',c.dataset.n==name));reset()}
 
-$('#bRun').onclick=()=>{autoStop();runAll()};$('#bStep').onclick=()=>{autoStop();step()};$('#bReset').onclick=reset;$('#bAuto').onclick=autoStart;$('#spd').onchange=()=>{if(autoT){autoStop();autoStart()}};$('#base').onchange=()=>{reset();if(prob)newProb(true)};
+$('#bRun').onclick=()=>{autoStop();runAll()};$('#bStep').onclick=()=>{autoStop();step()};$('#bReset').onclick=reset;$('#bAuto').onclick=autoStart;$('#spd').onchange=()=>{if(autoT){autoStop();autoStart()}};$('#base').onchange=()=>{reset();if(prob)newProb(true);if(exm)newExam()};
 let prob=null;
 const R=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
 const RA=(n,a,b)=>Array.from({length:n},()=>R(a,b));
@@ -395,11 +402,11 @@ function mkFill(p,sol){
  return{L,slots,hd:p.hd}
 }
 function fillSrc(){const M=[...fill.L];fill.slots.forEach(s=>{M[s.c.i]=s.c.pre+(s.sel||'【'+s.id+'】')+s.c.post});return fill.hd+'\n'+M.join('\n')}
-function renderFill(){
+function renderFill(tg){const FB=tg||'#fillbox';
  const M=fill.L.map(esc);
  fill.slots.forEach((s,k)=>{M[s.c.i]=esc(s.c.pre)+'<select data-k="'+k+'"><option value="">【'+s.id+'】</option>'+s.choices.map((c,j)=>'<option value="'+j+'"'+(s.sel===c?' selected':'')+'>'+esc(c)+'</option>').join('')+'</select>'+esc(s.c.post)});
- $('#fillbox').innerHTML='<pre>'+esc(fill.hd)+'\n'+M.join('\n')+'</pre>';
- $('#fillbox').querySelectorAll('select').forEach(e=>e.onchange=()=>{const s=fill.slots[+e.dataset.k];s.sel=e.value===''?'':s.choices[+e.value];reset();$('#src').value=fillSrc()});
+ $(FB).innerHTML='<pre>'+esc(fill.hd)+'\n'+M.map((x,i)=>tg?String(i+1).padStart(2,' ')+' | '+x:x).join('\n')+'</pre>';
+ $(FB).querySelectorAll('select').forEach(e=>e.onchange=()=>{const s=fill.slots[+e.dataset.k];s.sel=e.value===''?'':s.choices[+e.value];reset();$('#src').value=fillSrc()});
 }
 function fillRes(){return(prob&&fill&&prob.mode=='f')?'空欄：'+fill.slots.map(s=>s.id+(s.sel===s.c.ans?'○':'×')).join('　'):''}
 $('#mode').onchange=()=>newProb();
@@ -464,7 +471,7 @@ function lineEx(t){let m;
  return''}
 function showExp(){
  if(!prob)return;
- const idea=(IDEA.find(([k])=>prob.t.startsWith(k))||[0,'与えられたデータを順に処理して答えを求める。'])[1];
+ const idea=prob.idea||(IDEA.find(([k])=>prob.t.startsWith(k))||[0,'与えられたデータを順に処理して答えを求める。'])[1];
  const rows=$('#solpre').textContent.split('\n').map(l=>{const e=lineEx(l.trim());return'<div class="exl">'+esc(l)+(e?'<span>→ '+esc(e)+'</span>':'')+'</div>'}).join('');
  let fx='';
  if(fill&&prob.mode=='f'){
@@ -525,13 +532,13 @@ function ins(code){
 }
 function csList(k){const l=$('#csList');l.innerHTML='';CS[k].forEach(([n,d,c])=>{const b=document.createElement('button');b.className='chip';b.textContent='＋ '+n;b.onclick=()=>{ins(fmt(c));$('#csDesc').textContent='「'+n+'」を挿入しました：'+d};l.appendChild(b)})}
 function csInit(){const cat=$('#csCat');Object.keys(CS).forEach((k,j)=>{const b=document.createElement('button');b.className='tab'+(j?'':' on');b.textContent=k;b.onclick=()=>{cat.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));csList(k)};cat.appendChild(b)});csList(Object.keys(CS)[0])}
-function setFree(on,keep){free=on;
+function setFree(on,keep){free=on;exm=false;$('#examc').style.display='none';$('#tExam').classList.remove('on');
  $('#bNew').closest('.card').style.display=on?'none':'';$('#bCheck').style.display=on?'none':'';$('#bClear').style.display=on?'':'none';$('#bRun').className=on?'p':'';
  $('#tTask').classList.toggle('on',!on);$('#tFree').classList.toggle('on',on);
- if(on){$('#cs').open=true;prob=null;fill=null;$('#fillc').style.display='none';$('#expc').style.display='none';$('#res').className='res';reset();if(!keep&&!$('#src').value.trim())$('#src').value=STARTER}
+ if(on){$('#cs').open=true;prob=null;fill=null;pred=null;$('#predc').style.display='none';$('#fillc').style.display='none';$('#expc').style.display='none';$('#res').className='res';reset();if(!keep&&!$('#src').value.trim())$('#src').value=STARTER}
  else{$('#cs').open=false;newProb()}
 }
-$('#tTask').onclick=()=>{if(free)setFree(false)};$('#tFree').onclick=()=>{if(!free)setFree(true)};
+$('#tTask').onclick=()=>{if(free||exm)setFree(false)};$('#tFree').onclick=()=>{if(!free)setFree(true)};
 $('#bClear').onclick=()=>{reset();$('#src').value=STARTER};
 csInit();
 let autoT=null;
@@ -542,22 +549,138 @@ function autoStart(){
  $('#bAuto').textContent='⏸ 一時停止';
  autoT=setInterval(()=>{step();if(!gen)autoStop()},+$('#spd').value);
 }
-function newProb(same){
+let trace=[],tcols=[],ttrunc=false,pred=null;
+const fm=v=>Array.isArray(v)?'['+v.slice(base).join(', ')+']':String(v);
+function rec(){if(trace.length>=400){ttrunc=true;return}const o={};for(const k in env){o[k]=fm(env[k]);if(!tcols.includes(k))tcols.push(k)}trace.push({no:cur.no,v:o})}
+function renderTrace(){
+ const c=$('#tracec');if(!trace.length){c.style.display='none';return}
+ const L=trace[trace.length-1],cols=tcols.filter(k=>!(/^\[/.test(L.v[k]||'')&&trace.every(r=>r.v[k]===undefined||r.v[k]===L.v[k])));
+ let h='<table class="tt"><tr><th>#</th><th>行</th>'+cols.map(k=>'<th>'+esc(k)+'</th>').join('')+'</tr>';
+ trace.forEach((r,i)=>{const q=trace[i-1];h+='<tr><td>'+(i+1)+'</td><td>'+r.no+'</td>'+cols.map(k=>{const v=r.v[k],ch=v!==undefined&&(!q||q.v[k]!==v);return'<td class="'+(ch?'c':'')+'">'+(v===undefined?'':esc(v))+'</td>'}).join('')+'</tr>'});
+ $('#tracebox').innerHTML=h+'</table>'+(ttrunc?'<div class="mut">（400ステップ目までを表示）</div>':'');c.style.display='';
+}
+function tracer(src){const sv=[env,out,cur,base];env={};out=[];base=B();const rows=[];
+ try{const g=exec(P(src));let r;while(!(r=g.next()).done){if(rows.length>=200)return null;const v={};for(const k in env)v[k]=fm(env[k]);rows.push({no:cur.no,v})}return rows}
+ catch(e){return null}finally{[env,out,cur,base]=sv}}
+function mkPred(p,sol,mode){
+ const hn=p.hd.split('\n').length-1,all=tracer(p.hd+'\n'+sol);if(!all)return null;
+ const rows=all.filter(r=>r.no>hn+1);if(rows.length<4||rows.length>26)return null;
+ const keys=[];rows.forEach(r=>Object.keys(r.v).forEach(k=>{if(!keys.includes(k))keys.push(k)}));
+ const cols=keys.filter(k=>!rows.every(r=>r.v[k]===rows[0].v[k]));if(!cols.length)return null;
+ const masks=[];
+ if(mode=='t'){const cand=[];rows.forEach((r,i)=>cols.forEach(c=>{const v=r.v[c];if(i>0&&/^-?\d+$/.test(v||'')&&rows[i-1].v[c]!==v)cand.push({ri:i,col:c,ans:v})}));
+  if(cand.length<3)return null;cand.sort(()=>Math.random()-.5);const used=new Set();
+  for(const c of cand){if(used.has(c.ri))continue;used.add(c.ri);masks.push(c);if(masks.length>=3)break}
+  if(masks.length<2)return null;masks.sort((a,b)=>a.ri-b.ri)}
+ return{rows,cols,masks,hn}
+}
+function renderPred(){
+ const p=prob,sol=$('#solpre').textContent.split('\n');
+ let h='<pre>'+esc(p.hd)+sol.map((l,i)=>'<div class="ln"><i>'+(i+1)+'</i>'+esc(l)+'</div>').join('')+'</pre>';
+ if(p.mode=='p'){$('#predh').textContent='🔮 結果を予想しよう';
+  h+='<div style="margin-top:8px">実行したとき<b>表示される値</b>を、順にスペース区切りで入力：</div><input id="predIn" inputmode="decimal" placeholder="例： 3 5 8" style="width:100%;font:inherit;padding:6px 8px;border:1px solid var(--bd);border-radius:8px;background:var(--card);color:var(--tx)">'}
+ else{$('#predh').textContent='📊 トレース表を完成させよう';
+  h+='<div style="margin-top:8px">各行を実行した<b>直後</b>の値です。空欄（①②…）に入る値を答えよう。</div><div class="tbw"><table class="tt"><tr><th>#</th><th>行</th>'+pred.cols.map(c=>'<th>'+esc(c)+'</th>').join('')+'</tr>'+pred.rows.map((r,i)=>'<tr><td>'+(i+1)+'</td><td>'+(r.no-pred.hn-1)+'</td>'+pred.cols.map(c=>{const m=pred.masks.findIndex(x=>x.ri==i&&x.col==c);return m>=0?'<td><input class="ti" data-m="'+m+'" inputmode="numeric" placeholder="'+(m+1)+'"></td>':'<td>'+esc(r.v[c]===undefined?'':r.v[c])+'</td>'}).join('')+'</tr>').join('')+'</table></div>'}
+ $('#predbox').innerHTML=h;
+}
+function predCheck(){
+ let ok,msg;
+ if(prob.mode=='p'){const got=($('#predIn').value||'').trim().split(/[\s,、]+/).filter(Boolean),exp=prob.exp.map(String);
+  ok=got.length==exp.length&&got.every((v,i)=>+v==+exp[i]);
+  msg=ok?'🎉 正解！予想どおりです。':'❌ 不正解<br>正しい出力：'+esc(exp.join(' '))+'<br>あなたの予想：'+esc(got.join(' ')||'（未入力）')}
+ else{const ins=[...document.querySelectorAll('#predbox .ti')],rs=pred.masks.map((m,k)=>(ins[k]&&ins[k].value.trim())===m.ans);
+  ok=rs.every(Boolean);msg=(ok?'🎉 すべて正解！':'❌ 空欄の結果')+'<br>'+pred.masks.map((m,k)=>'空欄'+(k+1)+'（#'+(m.ri+1)+'・'+esc(m.col)+'）：'+(rs[k]?'○':'×（正解は '+m.ans+'）')).join('<br>')}
+ runAll();showExp();
+ $('#res').className='res '+(ok?'ok':'ng');$('#res').innerHTML=msg+'<br><span class="mut">📊 実際の実行のトレース表と 📖 解説は下にあります</span>';
+}
+let exm=false,ex=null;
+const SETS=[
+()=>{const T=mkT(),c=R(2,5);return{t:'屋台の最長待ち時間',par:'chouri',val:c,alts:[1,2,3,4,5,6,7,8],
+ story:'学園祭のたこ焼き屋台では、客が到着した順に1人ずつ注文を受けて調理する。前の客の調理が終わるまで、次の客は待たされる。配列 Touchaku は各客の到着時刻（分）、chouri は1人あたりの調理時間（分）を表す。次のプログラムは、最も長く待たされた客の待ち時間（最長待ち時間）を求めて表示する。',
+ idea:'各客の開始時刻は「到着時刻」と「直前の客の終了時刻」の遅い方（最大値）。待ち時間＝開始時刻−到着時刻。待ち時間を求めるたびに最大値で最長待ち時間を更新する。調理時間を変えると終了時刻が変わり、待ち時間が連鎖的に変わる。',
+ hd:'Touchaku = ['+T.join(', ')+']\nchouri = '+c+'\nkyakusu = 要素数(Touchaku)\n',cnt:'kyakusu',
+ sol:(lo,hi)=>`owari = Touchaku[${lo}] + chouri\nsaichou = 0\ni を ${lo+1} から ${hi} まで 1 ずつ増やしながら繰り返す:\n    kaishi = 最大値(Touchaku[i], owari)\n    matsu = kaishi - Touchaku[i]\n    saichou = 最大値(saichou, matsu)\n    owari = kaishi + chouri\n表示する(saichou)`}},
+()=>{const A=RA(R(5,7),30,100),g=R(50,70);return{t:'小テストの合格者',par:'gokaku',val:g,alts:[40,45,55,60,65,70,75,80],
+ story:'ある小テストの得点が配列 A に入っている。gokaku は合格点を表す。次のプログラムは、合格点以上の人数（1行目）と、全員の平均点の整数部分（2行目）を表示する。',
+ idea:'合計と人数を1回の繰り返しで同時に求める。人数は「もし」で条件に合うときだけ加算する。平均は合計÷要素数の整数部分。合格点を変えると、人数だけが変わる。',
+ hd:ah(A)+'gokaku = '+g+'\n',cnt:'n',
+ sol:(lo,hi)=>`ninzu = 0\ngoukei = 0\n${loop(lo,hi)}    goukei = goukei + A[i]\n    もし A[i] >= gokaku ならば:\n        ninzu = ninzu + 1\n表示する(ninzu)\n表示する(整数(goukei / n))`}},
+()=>{const A=RA(R(8,10),2,9),s=sumA(A),m=R(12,Math.max(13,s-4)),al=[];for(let v=8;v<s;v++)al.push(v);return{t:'貯金の目標',par:'mokuhyo',val:m,alts:al,
+ story:'毎月の貯金額が配列 A に順に入っている（単位は千円）。mokuhyo は貯金の目標額を表す。次のプログラムは、貯金の合計が目標額に初めて達するまでの月数を表示する。',
+ idea:'回数が決まっていない繰り返しなので「の間繰り返す」を使う。残高が目標に達していない間、1か月分ずつ足して月数を数える。目標を変えると、必要な月数が変わる。',
+ hd:ah(A)+'mokuhyo = '+m+'\n',cnt:'n',
+ sol:(lo)=>`zandaka = 0\ntsuki = 0\ni = ${lo}\nzandaka < mokuhyo の間繰り返す:\n    zandaka = zandaka + A[i]\n    tsuki = tsuki + 1\n    i = i + 1\n表示する(tsuki)`}},
+()=>{const A=RA(R(6,8),12,36),k=R(18,28);return{t:'気温の観測',par:'kijun',val:k,alts:[15,17,19,20,22,24,26,28,30],
+ story:'ある週の最高気温（℃）が配列 A に日付順に入っている。kijun は基準の気温を表す。次のプログラムは、基準以上だった日数（1行目）と、期間中の最高気温（2行目）を表示する。',
+ idea:'基準以上の日を数えるカウンタと、最高値を覚える変数を、1回の繰り返しの中で別々の「もし」で更新する。基準を変えると、日数だけが変わる。',
+ hd:ah(A)+'kijun = '+k+'\n',cnt:'n',
+ sol:(lo,hi)=>`kosu = 0\nsaikou = A[${lo}]\n${loop(lo,hi)}    もし A[i] >= kijun ならば:\n        kosu = kosu + 1\n    もし A[i] > saikou ならば:\n        saikou = A[i]\n表示する(kosu)\n表示する(saikou)`}}
+];
+function ttab(pr){return'<div class="tbw"><table class="tt"><tr><th>#</th><th>行</th>'+pr.cols.map(c=>'<th>'+esc(c)+'</th>').join('')+'</tr>'+pr.rows.map((r,i)=>'<tr><td>'+(i+1)+'</td><td>'+(r.no-pr.hn-1)+'</td>'+pr.cols.map(c=>{const m=pr.masks.findIndex(x=>x.ri==i&&x.col==c);return m>=0?'<td><input class="ti" data-m="'+m+'" inputmode="numeric" placeholder="'+(m+1)+'"></td>':'<td>'+esc(r.v[c]===undefined?'':r.v[c])+'</td>'}).join('')+'</tr>').join('')+'</table></div>'}
+function newExam(){
+ ex=null;
+ for(let t=0;t<80&&!ex;t++){
+  const g=SETS[R(0,SETS.length-1)](),b=B(),hi=b?g.cnt:g.cnt+' - 1',sol=g.sol(b,hi);
+  const o=quick(g.hd+'\n'+sol);if(o=='ERR'||o=='LOOP')continue;
+  g.exp=o.split('\n');g.mode='f';
+  const f=mkFill(g,sol),pr=mkPred(g,sol,'t');if(!f||!pr)continue;
+  for(const alt of g.alts.filter(a=>a!==g.val).sort(()=>Math.random()-.5)){
+   const o3=quick(g.hd.replace(new RegExp('^'+g.par+' = .*$','m'),g.par+' = '+alt)+'\n'+sol);
+   if(o3!='ERR'&&o3!='LOOP'&&o3.split('\n')[0]!==g.exp[0]){ex={g,sol,f,pr,alt,exp3:o3,ans3:o3.split('\n')[0]};break}}
+ }
+ renderExam();
+}
+function renderExam(){
+ $('#expc').style.display='none';
+ if(!ex){$('#exbox').innerHTML='問題セットを作れませんでした。もう一度「新しい問題セット」を押してください。';return}
+ const g=ex.g,f=ex.f,pr=ex.pr;fill=f;$('#solpre').textContent=ex.sol;
+ const one=g.exp.length>1?'1行目に表示される値':'表示される値';
+ let h='<div class="gx" style="font:inherit;white-space:pre-wrap">'+esc(g.story)+'</div>';
+ h+='<div style="margin:10px 0 2px"><b>プログラム</b>（空欄は問1の選択肢から選ぶ）</div><div id="exfill"></div>';
+ h+='<p><b>問1</b>（40点）空欄 '+f.slots.map(s=>s.id).join('・')+' に入れるのに最も適当なものを、上のプログラムの選択肢から選べ。</p>';
+ h+='<p><b>問2</b>（30点）空欄を正しく埋めたプログラムを実行したとき、各行を実行した<b>直後</b>の変数の値を表にまとめた。表の空欄①〜に入る値を答えよ。</p>'+ttab(pr);
+ h+='<p><b>問3</b>（30点）'+esc(g.par)+' の値を <b>'+ex.alt+'</b> に変えてプログラムを実行すると、'+one+'はいくつになるか。（下のエディタでプログラムを書き換えて実行してもよい）</p><input id="ex3" inputmode="numeric" placeholder="答え" style="width:8em;font:inherit;padding:6px 8px;border:1px solid var(--bd);border-radius:8px;background:var(--card);color:var(--tx)">';
+ h+='<div style="margin-top:10px"><button class="p" id="bExamGrade">✅ 採点する</button></div><div id="exres" class="res"></div>';
+ $('#exbox').innerHTML=h;renderFill('#exfill');
+ $('#bExamGrade').onclick=gradeExam;
+ reset();$('#src').value=fillSrc();
+}
+function gradeExam(){
+ const f=ex.f,pr=ex.pr;
+ const r1=f.slots.map(s=>s.sel===s.c.ans),ins=[...document.querySelectorAll('#exbox .ti')],r2=pr.masks.map((m,k)=>!!ins[k]&&ins[k].value.trim()===m.ans);
+ const v3=($('#ex3').value||'').trim(),r3=v3!==''&&+v3==+ex.ans3;
+ const p1=Math.round(40*r1.filter(Boolean).length/r1.length),p2=Math.round(30*r2.filter(Boolean).length/r2.length),p3=r3?30:0,tot=p1+p2+p3;
+ $('#exres').className='res '+(tot==100?'ok':'ng');
+ $('#exres').innerHTML='得点：<b>'+tot+' / 100</b>（問1 '+p1+'/40・問2 '+p2+'/30・問3 '+p3+'/30）<br>問1：'+f.slots.map((s,k)=>s.id+(r1[k]?'○':'×（正解 '+esc(s.c.ans)+'）')).join('　')+'<br>問2：'+pr.masks.map((m,k)=>(k+1)+(r2[k]?'○':'×（正解 '+m.ans+'）')).join('　')+'<br>問3：'+(r3?'○':'×（正解 '+ex.ans3+'）')+'<br><span class="mut">📖 解説は一番下にあります</span>';
+ prob=ex.g;fill=f;showExp();prob=null;
+ $('#expbox').insertAdjacentHTML('beforeend','<h3>問3の解説</h3><div>'+esc(ex.g.par)+' を '+ex.alt+' に変えて実行すると、表示は「'+esc(ex.exp3.replace(/\n/g,' / '))+'」となる。</div>');
+}
+function setExam(){
+ exm=true;free=false;autoStop();prob=null;pred=null;fill=null;
+ $('#bNew').closest('.card').style.display='none';$('#bCheck').style.display='none';$('#bClear').style.display='none';$('#bRun').className='p';
+ $('#tTask').classList.remove('on');$('#tFree').classList.remove('on');$('#tExam').classList.add('on');$('#cs').open=false;
+ $('#fillc').style.display='none';$('#predc').style.display='none';$('#expc').style.display='none';$('#res').className='res';
+ $('#examc').style.display='';newExam();
+}
+$('#tExam').onclick=()=>{if(!exm)setExam()};$('#bExamNew').onclick=()=>newExam();
+function newProb(same,fmode){
  let lv,gi;
  if(same&&prob){lv=prob.lv;gi=prob.gi}
  else{const sel=+$('#lvl').value,all=[];for(const l of [1,2,3])if(!sel||sel==l)G[l].forEach((_,g)=>all.push([l,g]));
   const c=all.filter(x=>!(prob&&x[0]==prob.lv&&x[1]==prob.gi));[lv,gi]=c[R(0,c.length-1)]}
- const pm=same&&prob?prob.mode:($('#mode').value=='m'?(Math.random()<.5?'w':'f'):$('#mode').value);const p=G[lv][gi]();p.lv=lv;p.gi=gi;p.mode=pm;prob=p;
+ const pm=fmode||(same&&prob?prob.mode:($('#mode').value=='m'?['w','f','p','t'][R(0,3)]:$('#mode').value));const p=G[lv][gi]();p.lv=lv;p.gi=gi;p.mode=pm;prob=p;
  const b=B(),hi=b?p.cnt:p.cnt+' - 1',h1=b?p.cnt+' - 1':p.cnt+' - 2';
  $('#pt').innerHTML='<b>'+esc(p.t)+'</b><br>'+esc(p.q)+'<br><span class="mut">答えは 表示する(…) で数値だけを表示。</span><pre>'+esc(p.hd)+'</pre>';
  $('#solpre').textContent=p.sol(b,hi,h1);
- reset();fill=null;if(pm=='f'){fill=mkFill(p,$('#solpre').textContent);if(!fill)p.mode='w'}
- $('#fillc').style.display=p.mode=='f'?'':'none';$('#expc').style.display='none';$('#solbox').style.display=p.mode=='f'?'none':'';
- if(p.mode=='f'){renderFill();$('#src').value=fillSrc();$('#pt').insertAdjacentHTML('beforeend','<div class="mut">🧩 空欄に入るものを選んでプログラムを完成させよう。完成したら「実行」「ステップ」で動かしたり、下のエディタで書き換えて試せます。</div>')}else $('#src').value=p.hd+'\n# ここから下にプログラムを書く\n';
+ reset();fill=null;pred=null;
+ if(pm=='p'||pm=='t'){pred=mkPred(p,$('#solpre').textContent,pm);if(!pred){if((newProb.n=(newProb.n||0)+1)<15)return newProb(same,pm);p.mode='w'}newProb.n=0}
+ if(pm=='f'){fill=mkFill(p,$('#solpre').textContent);if(!fill)p.mode='w'}
+ $('#fillc').style.display=p.mode=='f'?'':'none';$('#expc').style.display='none';$('#solbox').style.display=p.mode=='w'?'':'none';$('#predc').style.display=(p.mode=='p'||p.mode=='t')?'':'none';
+ if(pred&&(p.mode=='p'||p.mode=='t')){renderPred();$('#src').value=p.hd+'\n'+$('#solpre').textContent;$('#pt').insertAdjacentHTML('beforeend','<div class="mut">'+(p.mode=='p'?'🔮 実行する前に、プログラムをたどって表示される値を予想しよう。答え合わせのあと、実際のトレース表で確かめられます。':'📊 プログラムを1行ずつたどって、表の空欄に入る値を答えよう。')+'</div>')}else if(p.mode=='f'){renderFill();$('#src').value=fillSrc();$('#pt').insertAdjacentHTML('beforeend','<div class="mut">🧩 空欄に入るものを選んでプログラムを完成させよう。完成したら「実行」「ステップ」で動かしたり、下のエディタで書き換えて試せます。</div>')}else $('#src').value=p.hd+'\n# ここから下にプログラムを書く\n';
  $('#res').className='res';$('#res').textContent='';
  document.querySelectorAll('.chip').forEach(c=>c.classList.remove('on'));
 }
-function check(){
+function check(){if(prob&&(prob.mode=='p'||prob.mode=='t')){predCheck();return}
  const fr=fillRes();runAll();if(!prob)return;showExp();if(!done){if(fr){$('#res').className='res ng';$('#res').innerHTML=fr}return}
  const got=out.map(s=>String(s).trim()),exp=prob.exp.map(String);
  const ok=got.length==exp.length&&got.every((v,i)=>v==exp[i]);
